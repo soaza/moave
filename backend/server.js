@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const Pool = require("pg").Pool;
 
 const app = express();
 app.use(express.json());
@@ -15,14 +14,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Database
+const database = require("./model/pool");
+
+let pool = database.pool;
 // Controllers
 const accountController = require("./controllers/user/account");
 const movieController = require("./controllers/movies");
-
-const pool = new Pool({
-  database: "moave",
-  port: 5432,
-});
 
 const port = 3001;
 app.listen(port, () => {
@@ -31,10 +29,10 @@ app.listen(port, () => {
 
 // Account Management
 app.post("/register", (req, res) => {
-  accountController.accountControllerSignUp(req, res, pool);
+  accountController.accountSignUp(req, res, pool);
 });
 app.get("/login", (req, res) => {
-  accountController.accountControllerLogin(req, res, pool);
+  accountController.accountLogin(req, res, pool);
 });
 
 // Movie Management

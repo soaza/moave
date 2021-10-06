@@ -14,6 +14,7 @@ const accountSignUp = async (request, response, pool) => {
 
   pool.query(query, [username, hashedPassword], (error, results) => {
     if (error) {
+      console.log(error);
       response.status(500).json({
         success: false,
       });
@@ -34,6 +35,7 @@ const accountLogin = async (request, response, pool) => {
 
   pool.query(query, [username], async (error, results) => {
     if (error || !results.rows[0]) {
+      console.log(error);
       response.status(500).json({
         success: false,
       });
