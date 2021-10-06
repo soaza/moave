@@ -1,2 +1,5 @@
 /backend/node_modules
+/backend/model/pool.js
+/backend/.env
+
 /frontend/node_modules
