@@ -48,12 +48,9 @@ const accountLogin = async (request, response, pool) => {
 
       if (validPassword) {
         response.status(200).json({
-          // cant do this yet cos front end doesnt check for user info 
-          // so maybe we just leave the returning to getUserInfo commands?????
-          //user_id: results.rows[0].user_id,
-          //username: results.rows[0].username,
-          //email: results.rows[0].email
-          success: true,
+          user_id: results.rows[0].user_id,
+          username: results.rows[0].username,
+          email: results.rows[0].email
         });
       } else {
         response.status(500).json({
