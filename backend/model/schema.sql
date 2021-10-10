@@ -19,17 +19,18 @@ CREATE TABLE MovieList (
 );
 
 CREATE TABLE Movies (
-    user_id INTEGER NOT NULL references Users(user_id),
-    list_name TEXT NOT NULL references MovieList(list_name), 
+    user_id INTEGER NOT NULL,
+    list_name TEXT NOT NULL,
     movie_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id, list_name) references MovieList(user_id, list_name),
     PRIMARY KEY(user_id, list_name, movie_id)
 );
 
-SELECT *
-FROM Users
-WHERE EXISTS (
-    SELECT 1
-    FROM Follows
-    WHERE following_id = 1
-    AND Users.user_id = Follows.follower_id
-);
+
+INSERT INTO Users values ("user1@gmail.com", "$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC", "user1"); /*pw = user1 */
+INSERT INTO Users values ("user1@gmail.com", "$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy", "user1"); /*pw = user2 */
+INSERT INTO Users values ("user1@gmail.com", "$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i", "user1"); /*pw = user3 */
+
+INSERT INTO Follows values (1, 2);
+INSERT INTO Follows values (1, 3);
+INSERT INTO Follows values (2, 3);
