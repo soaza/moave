@@ -31,9 +31,39 @@ app.listen(port, () => {
 app.post("/register", (req, res) => {
   accountController.accountSignUp(req, res, pool);
 });
-app.get("/login", (req, res) => {
+app.post("/login", (req, res) => {
   accountController.accountLogin(req, res, pool);
 });
+app.put("/changePassword", (req, res) => {
+  accountController.changePassword(req, res, pool);
+});
+
+// Socials
+app.post("/follow", (req, res) => {
+  accountController.followAccount(req, res, pool);
+});
+
+app.get("/followers/:user_id", (req, res) => {
+  accountController.getFollowers(req, res, pool);
+});
+
+app.get("/following/:user_id", (req, res) => {
+  accountController.getFollowing(req, res, pool);
+});
+
+// Search Users
+app.get("/searchUserById/:user_id", (req, res) => {
+  accountController.getUserInfoById(req, res, pool);
+});
+
+app.get("/searchUserByUsername/:username", (req, res) => {
+  accountController.getUserInfoByUsername(req, res, pool);
+});
+
+app.get("/searchUserByEmail/:email", (req, res) => {
+  accountController.getUserInfoByEmail(req, res, pool);
+});
+
 
 // Movie Management
 app.get("/get_movie", (req, res) => {
