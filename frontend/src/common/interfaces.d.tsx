@@ -18,6 +18,12 @@ export interface IMoviesData {
   total_results: number;
 }
 
+export interface IUserData {
+  user_id: string;
+  username: string;
+  email: string;
+}
+
 // Endpoints
 export interface IMovieDataEndpoint {
   data: IMovieData;
@@ -28,5 +34,9 @@ export interface IMoviesDataEndpoint {
 }
 
 export interface IUserDataEndpoint {
-  data: { username: string }[];
+  data: IUserData;
+}
+
+export interface IUsersDataEndpoint {
+  data: IUserData[];
 }

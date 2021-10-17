@@ -5,9 +5,9 @@ import { useHistory } from "react-router-dom";
 import Loader from "../loader/loader";
 
 const { useEffect, useState } = React;
+const currentUser = localStorage.getItem("username");
 
-interface IProps {}
-const UserSearchBar: React.FC<IProps> = (props) => {
+const UserSearchBar: React.FC = (props) => {
   const [options, setOptions] = useState<any>([]);
   const [keyword, setKeyword] = useState<string>();
   const [selected, setSelected] = useState<boolean>(false);
@@ -15,9 +15,9 @@ const UserSearchBar: React.FC<IProps> = (props) => {
 
   const history = useHistory();
 
-  const handleRedirect = (username: string) => {
+  const handleRedirect = (user_id: string) => {
     setSelected(true);
-    history.push(`/profile?username=${username}`, { title: "Test" });
+    history.push(`/profile?user_id=${user_id}`, { title: "Test" });
   };
 
   useEffect(() => {
@@ -26,12 +26,16 @@ const UserSearchBar: React.FC<IProps> = (props) => {
         keyword ? setLoading(true) : setLoading(false);
         const res = await getUsersByUsername(keyword);
 
-        let optionsArr: { value: string }[] = [];
-        res.data.map((item) => {
-          optionsArr.push({
-            value: item.username,
+        let optionsArr: { value: string; label: string }[] = [];
+        res.data
+          // Exclude current user
+          .filter((obj) => obj.username !== currentUser)
+          .map((item) => {
+            optionsArr.push({
+              value: item.user_id,
+              label: item.username,
+            });
           });
-        });
         setOptions(optionsArr);
 
         setLoading(false);

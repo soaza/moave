@@ -111,15 +111,16 @@ const getUserInfoById = async (request, response, pool) => {
   pool.query(query, [user_id], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
-      console.log(results.rows[0]);
       response.status(500).json({
         success: false,
       });
     } else {
       response.status(200).json({
-        user_id: results.rows[0].user_id,
-        username: results.rows[0].username,
-        email: results.rows[0].email,
+        data: {
+          user_id: results.rows[0].user_id,
+          username: results.rows[0].username,
+          email: results.rows[0].email,
+        },
       });
     }
   });
@@ -127,6 +128,7 @@ const getUserInfoById = async (request, response, pool) => {
 
 const getUserInfoByUsername = async (request, response, pool) => {
   const { username } = request.params;
+  console.log(username);
   const query = `SELECT * FROM Users WHERE username = $1`;
   pool.query(query, [username], async (error, results) => {
     if (error || !results.rows[0]) {
@@ -168,7 +170,7 @@ const getUserInfoByEmail = async (request, response, pool) => {
 const matchUserInfoByUsername = async (request, response, pool) => {
   const params = request.query;
   const { username } = params;
-  const query = `SELECT username FROM Users WHERE username LIKE '${username}%'`;
+  const query = `SELECT user_id,username FROM Users WHERE username LIKE '${username}%'`;
   pool.query(query, async (error, results) => {
     if (error) {
       console.log(error);
@@ -250,6 +252,27 @@ const getFollowing = async (request, response, pool) => {
   });
 };
 
+const checkFollowing = async (request, response, pool) => {
+  const { follower_id, following_id } = request.params;
+  const query = `
+      SELECT *
+      FROM Follows NATURAL JOIN users
+      WHERE follower_id = $1
+      AND following_id = $2
+  `;
+  pool.query(query, [follower_id, following_id], async (error, results) => {
+    if (error) {
+      console.log(error);
+      response.status(500).json({
+        success: false,
+      });
+    } else {
+      response.status(200).json({
+        success: true,
+      });
+    }
+  });
+};
 module.exports = {
   accountSignUp,
   accountLogin,
@@ -261,4 +284,5 @@ module.exports = {
   getFollowers,
   getFollowing,
   matchUserInfoByUsername,
+  checkFollowing,
 };

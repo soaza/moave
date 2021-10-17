@@ -9,6 +9,7 @@ import LandingPage from "./pages/landing-page";
 import RegisterPage from "./pages/register";
 import LoginPage from "./pages/login";
 import NotFoundPage from "./pages/404-page";
+import MyProfilePage from "./pages/my_profile";
 
 const { useState, useEffect } = React;
 const App: React.FC = () => {
@@ -54,6 +55,8 @@ const App: React.FC = () => {
       <Switch location={location} key={location.pathname}>
         <Route exact path="/" component={LandingPage} />
         <Route path="/profile" component={ProfilePage} />
+        <Route path="/my_profile" component={MyProfilePage} />
+
         <Route path="/movie" component={MoviePage} />
         <Route path="/movies" component={MoviesPage} />
         <Route path="/" component={NotFoundPage} />

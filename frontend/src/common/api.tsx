@@ -2,6 +2,7 @@ import {
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
   IUserDataEndpoint,
+  IUsersDataEndpoint,
 } from "./interfaces.d";
 
 require("dotenv").config();
@@ -11,6 +12,7 @@ interface IRequest {
   headers?: Record<string, unknown>;
   params?: Record<string, unknown>;
   data?: Record<string, unknown>;
+  URL_params?: Record<string, unknown>;
 }
 
 async function makeRequest(request: IRequest, method: string) {
@@ -20,6 +22,14 @@ async function makeRequest(request: IRequest, method: string) {
     Object.keys(request.params).forEach((param, ind) => {
       const paramsObj = request.params ? request.params : {};
       url += `${ind === 0 ? "?" : "&"}${param}=${paramsObj[param]}`;
+    });
+  }
+
+  // When endpoint is url_path/:param
+  if (request.URL_params) {
+    Object.keys(request.URL_params).forEach((param, ind) => {
+      const paramsObj = request.URL_params ? request.URL_params : {};
+      url += `/${paramsObj[param]}`;
     });
   }
 
@@ -60,7 +70,7 @@ const BASE_URL = "http://localhost:3001";
 
 // Account
 export const registerUser = async (username: string, password: string) => {
-  return post<{ success: boolean }>({
+  return post<{ user_id: string; success: boolean }>({
     endpoint: `${BASE_URL}/register`,
     data: {
       username: username,
@@ -70,7 +80,7 @@ export const registerUser = async (username: string, password: string) => {
 };
 
 export const loginUser = async (username: string, password: string) => {
-  return post<{ success: boolean }>({
+  return post<{ user_id: string; success: boolean }>({
     endpoint: `${BASE_URL}/login`,
     data: {
       username: username,
@@ -104,8 +114,15 @@ export const getLatestMovies = async () => {
 };
 
 // Users
-export const getUsersByUsername = async (username: string) => {
+export const getUserByUserId = async (user_id: string) => {
   return get<IUserDataEndpoint>({
+    endpoint: `${BASE_URL}/searchUserById`,
+    URL_params: { user_id: user_id },
+  });
+};
+
+export const getUsersByUsername = async (username: string) => {
+  return get<IUsersDataEndpoint>({
     endpoint: `${BASE_URL}/getUsersByUsername`,
     params: { username: username },
   });

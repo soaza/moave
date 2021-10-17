@@ -17,20 +17,18 @@ const TABS = [
 
 const { useEffect, useState } = React;
 
-const ProfilePage: React.FC = () => {
+const MyProfilePage: React.FC = () => {
   const [user, setUser] = useState<IUserData>();
 
-  const userIdFromParams = new URL(window.location.href).searchParams.get(
-    "user_id"
-  ) as string;
+  const user_id = localStorage.getItem("user_id") as string;
 
   useEffect(() => {
     const loadUser = async () => {
-      const res = await getUserByUserId(userIdFromParams);
+      const res = await getUserByUserId(user_id);
       setUser(res.data);
     };
     loadUser();
-  }, [userIdFromParams]);
+  }, []);
 
   return (
     <>
@@ -70,4 +68,4 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default ProfilePage;
+export default MyProfilePage;
