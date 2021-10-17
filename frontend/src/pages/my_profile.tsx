@@ -19,7 +19,7 @@ const MyProfilePage: React.FC = () => {
   }, [user_id]);
 
   if (user) {
-    return <ProfileLanding user={user} />;
+    return <ProfileLanding user={user} isOwnProfile={true} />;
   }
 
   return null;

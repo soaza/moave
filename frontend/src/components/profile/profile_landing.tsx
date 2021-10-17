@@ -16,12 +16,13 @@ const TABS = [
 
 interface IProps {
   user: IUserData;
+  isOwnProfile?: boolean;
 }
 
 const { useState, useEffect } = React;
 
 const ProfileLanding: React.FC<IProps> = (props) => {
-  const { user } = props;
+  const { user, isOwnProfile } = props;
   const [following, setFollowing] = useState<boolean>();
   const loggedUserId = localStorage.getItem("user_id") as string;
 
@@ -59,17 +60,19 @@ const ProfileLanding: React.FC<IProps> = (props) => {
                 }
               />
 
-              <Row style={{ marginTop: 20 }} justify="center">
-                {following ? (
-                  <Button disabled block type="ghost">
-                    Following
-                  </Button>
-                ) : (
-                  <Button onClick={() => followUser()} block type="primary">
-                    Follow
-                  </Button>
-                )}
-              </Row>
+              {!isOwnProfile && (
+                <Row style={{ marginTop: 20 }} justify="center">
+                  {following ? (
+                    <Button disabled block type="ghost">
+                      Following
+                    </Button>
+                  ) : (
+                    <Button onClick={() => followUser()} block type="primary">
+                      Follow
+                    </Button>
+                  )}
+                </Row>
+              )}
             </Col>
           </Row>
 
