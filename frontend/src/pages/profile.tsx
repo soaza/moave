@@ -12,6 +12,13 @@ const TABS = [
   { title: "Plan to Watch", key: "planned" },
 ];
 
+const usernameParam = new URL(window.location.href).searchParams.get(
+  "username"
+) as string;
+
+// usernameParamS exists if we look at other users' profile, else it renders current user's profile from local storage
+const user = usernameParam ? usernameParam : localStorage.getItem("username");
+
 const ProfilePage: React.FC = () => {
   return (
     <>
@@ -19,13 +26,13 @@ const ProfilePage: React.FC = () => {
         <Col span={18}>
           <Row justify="center">
             <Col>
-              <h1 style={{ textAlign: "center" }}>Kim Guan</h1>
+              <h1 style={{ textAlign: "center" }}>{user}</h1>
               <Avatar
                 size={200}
                 src={
                   <img
                     alt="profile-pic"
-                    src={"https://avatars.dicebear.com/api/human/kimgua.svg"}
+                    src={`https://avatars.dicebear.com/api/human/${user}.svg`}
                   />
                 }
               />
