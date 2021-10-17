@@ -27,7 +27,6 @@ const accountSignUp = async (request, response, pool) => {
   });
 };
 
-
 const accountLogin = async (request, response, pool) => {
   const body = request.body;
   const username = body.username;
@@ -50,7 +49,8 @@ const accountLogin = async (request, response, pool) => {
         response.status(200).json({
           user_id: results.rows[0].user_id,
           username: results.rows[0].username,
-          email: results.rows[0].email
+          email: results.rows[0].email,
+          success: true,
         });
       } else {
         response.status(500).json({
@@ -86,13 +86,16 @@ const changePassword = async (request, response, pool) => {
 
       if (validPassword) {
         const hashedNewPassword = await bcrypt.hash(newPassword, salt);
-        const query = 'UPDATE USERS SET PASSWORD = $1 WHERE email = $2';
-        pool.query(query, [hashedNewPassword, email], async (error, results) => {
-          response.status(200).json({
-            success: "Password Successfully Changed."
-          });
-
-        });
+        const query = "UPDATE USERS SET PASSWORD = $1 WHERE email = $2";
+        pool.query(
+          query,
+          [hashedNewPassword, email],
+          async (error, results) => {
+            response.status(200).json({
+              success: "Password Successfully Changed.",
+            });
+          }
+        );
       } else {
         response.status(500).json({
           success: false,
@@ -102,13 +105,8 @@ const changePassword = async (request, response, pool) => {
   });
 };
 
-
-
-
-
-
 const getUserInfoById = async (request, response, pool) => {
-  const {user_id} = request.params;
+  const { user_id } = request.params;
   const query = `SELECT * FROM Users WHERE user_id = $1`;
   pool.query(query, [user_id], async (error, results) => {
     if (error || !results.rows[0]) {
@@ -121,13 +119,14 @@ const getUserInfoById = async (request, response, pool) => {
       response.status(200).json({
         user_id: results.rows[0].user_id,
         username: results.rows[0].username,
-        email: results.rows[0].email});
+        email: results.rows[0].email,
+      });
     }
   });
 };
 
 const getUserInfoByUsername = async (request, response, pool) => {
-  const {username} = request.params;
+  const { username } = request.params;
   const query = `SELECT * FROM Users WHERE username = $1`;
   pool.query(query, [username], async (error, results) => {
     if (error || !results.rows[0]) {
@@ -140,13 +139,14 @@ const getUserInfoByUsername = async (request, response, pool) => {
       response.status(200).json({
         user_id: results.rows[0].user_id,
         username: results.rows[0].username,
-        email: results.rows[0].email});
+        email: results.rows[0].email,
+      });
     }
   });
 };
 
 const getUserInfoByEmail = async (request, response, pool) => {
-  const {email} = request.params;
+  const { email } = request.params;
   const query = `SELECT * FROM Users WHERE email = $1`;
   pool.query(query, [email], async (error, results) => {
     if (error || !results.rows[0]) {
@@ -159,18 +159,17 @@ const getUserInfoByEmail = async (request, response, pool) => {
       response.status(200).json({
         user_id: results.rows[0].user_id,
         username: results.rows[0].username,
-        email: results.rows[0].email});
+        email: results.rows[0].email,
+      });
     }
   });
 };
 
-
-
 const followAccount = async (request, response, pool) => {
   // info is for the person u are tryna follow
   const body = request.body;
-  const followerId= body.followerId;
-  const followingId = body.followingId
+  const followerId = body.followerId;
+  const followingId = body.followingId;
 
   const query = `INSERT INTO Follows VALUES ($1,$2)`;
   pool.query(query, [followerId, followingId], (error, results) => {
@@ -185,10 +184,10 @@ const followAccount = async (request, response, pool) => {
       });
     }
   });
-}
+};
 
 const getFollowers = async (request, response, pool) => {
-  const {user_id} = request.params;
+  const { user_id } = request.params;
   const query = `SELECT user_id, email, username
   FROM Users
   WHERE EXISTS (
@@ -205,14 +204,14 @@ const getFollowers = async (request, response, pool) => {
       });
     } else {
       response.status(200).json({
-        Followers: results.rows
+        Followers: results.rows,
       });
     }
   });
 };
 
 const getFollowing = async (request, response, pool) => {
-  const {user_id} = request.params;
+  const { user_id } = request.params;
   const query = `SELECT user_id, email, username
   FROM Users
   WHERE EXISTS (
@@ -229,7 +228,7 @@ const getFollowing = async (request, response, pool) => {
       });
     } else {
       response.status(200).json({
-        Following: results.rows
+        Following: results.rows,
       });
     }
   });
@@ -244,5 +243,5 @@ module.exports = {
   getUserInfoByEmail,
   followAccount,
   getFollowers,
-  getFollowing
+  getFollowing,
 };

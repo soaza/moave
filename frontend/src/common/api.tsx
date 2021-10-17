@@ -66,9 +66,9 @@ export const registerUser = async (username: string, password: string) => {
 };
 
 export const loginUser = async (username: string, password: string) => {
-  return get<{ success: boolean }>({
+  return post<{ success: boolean }>({
     endpoint: `${BASE_URL}/login`,
-    params: {
+    data: {
       username: username,
       password: password,
     },

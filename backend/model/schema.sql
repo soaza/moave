@@ -27,9 +27,9 @@ CREATE TABLE Movies (
 );
 
 
-INSERT INTO Users values ("user1@gmail.com", "$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC", "user1"); /*pw = user1 */
-INSERT INTO Users values ("user1@gmail.com", "$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy", "user1"); /*pw = user2 */
-INSERT INTO Users values ("user1@gmail.com", "$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i", "user1"); /*pw = user3 */
+INSERT INTO Users values (DEFAULT,'user1@gmail.com', '$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC', 'user1'); /*pw = user1 */
+INSERT INTO Users values (DEFAULT,'user2@gmail.com', '$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy', 'user2'); /*pw = user2 */
+INSERT INTO Users values (DEFAULT,'user3@gmail.com', '$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i', 'user3'); /*pw = user3 */
 
 INSERT INTO Follows values (1, 2);
 INSERT INTO Follows values (1, 3);
