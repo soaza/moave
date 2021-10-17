@@ -1,4 +1,8 @@
-import { IMovieDataEndpoint, IMoviesDataEndpoint } from "./interfaces.d";
+import {
+  IMovieDataEndpoint,
+  IMoviesDataEndpoint,
+  IUserDataEndpoint,
+} from "./interfaces.d";
 
 require("dotenv").config();
 
@@ -96,5 +100,13 @@ export const getMoviesOnSearch = async (
 export const getLatestMovies = async () => {
   return get<IMoviesDataEndpoint>({
     endpoint: `${BASE_URL}/get_latest_movies`,
+  });
+};
+
+// Users
+export const getUsersByUsername = async (username: string) => {
+  return get<IUserDataEndpoint>({
+    endpoint: `${BASE_URL}/getUsersByUsername`,
+    params: { username: username },
   });
 };

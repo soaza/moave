@@ -1,11 +1,24 @@
-import { PoweroffOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, message, Row } from "antd";
+import {
+  PoweroffOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Button, Col, message, Row } from "antd";
 import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import MovieSearchBar from "../search-bar/movie-search-bar";
+import UserSearchBar from "../search-bar/user-search-bar";
+
+const { useState } = React;
+
+enum TSearchType {
+  "user",
+  "movies",
+}
 
 const Navigation: React.FC = () => {
   const history = useHistory();
+  const [searchType, setSearchType] = useState<TSearchType>(TSearchType.user);
 
   const handleSignOut = () => {
     localStorage.removeItem("isAuthenticated");
@@ -28,11 +41,41 @@ const Navigation: React.FC = () => {
           </Link>
         </Col>
 
-        <Col span={24} lg={10}>
-          <MovieSearchBar />
+        <Col span={24} lg={8}>
+          {searchType == TSearchType.movies ? (
+            <MovieSearchBar />
+          ) : (
+            <UserSearchBar />
+          )}
         </Col>
 
-        <Col style={{ color: "white", fontSize: 20 }} span={24} lg={8}>
+        <Col span={24} lg={4}>
+          <Button
+            onClick={() => {
+              searchType === TSearchType.movies
+                ? setSearchType(TSearchType.user)
+                : setSearchType(TSearchType.movies);
+            }}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              borderColor: "black",
+            }}
+            type="primary"
+          >
+            {searchType == TSearchType.movies ? (
+              <span>
+                Search Users <UserOutlined />
+              </span>
+            ) : (
+              <span>
+                Search Movies <VideoCameraOutlined />
+              </span>
+            )}
+          </Button>
+        </Col>
+
+        <Col style={{ color: "white", fontSize: 20 }} span={24} lg={6}>
           <Row style={{ marginRight: 20 }} justify="end">
             <Link style={{ color: "white" }} to="profile">
               <UserOutlined style={{ color: "white", fontSize: 20 }} /> Profile

@@ -26,3 +26,7 @@ export interface IMovieDataEndpoint {
 export interface IMoviesDataEndpoint {
   data: IMoviesData;
 }
+
+export interface IUserDataEndpoint {
+  data: { username: string }[];
+}

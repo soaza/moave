@@ -165,6 +165,22 @@ const getUserInfoByEmail = async (request, response, pool) => {
   });
 };
 
+const matchUserInfoByUsername = async (request, response, pool) => {
+  const params = request.query;
+  const { username } = params;
+  const query = `SELECT username FROM Users WHERE username LIKE '${username}%'`;
+  pool.query(query, async (error, results) => {
+    if (error) {
+      console.log(error);
+      response.status(500).json({
+        success: false,
+      });
+    } else {
+      response.status(200).json({ data: results.rows });
+    }
+  });
+};
+
 const followAccount = async (request, response, pool) => {
   // info is for the person u are tryna follow
   const body = request.body;
@@ -244,4 +260,5 @@ module.exports = {
   followAccount,
   getFollowers,
   getFollowing,
+  matchUserInfoByUsername,
 };

@@ -64,6 +64,9 @@ app.get("/searchUserByEmail/:email", (req, res) => {
   accountController.getUserInfoByEmail(req, res, pool);
 });
 
+app.get("/getUsersByUsername", (req, res) => {
+  accountController.matchUserInfoByUsername(req, res, pool);
+});
 
 // Movie Management
 app.get("/get_movie", (req, res) => {

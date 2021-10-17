@@ -19,11 +19,11 @@ const ProfileTab: React.FC<any> = ({ title }) => {
 
       <Row gutter={[30, 30]}>
         {favouritedMovieIds?.length > 0 &&
-          favouritedMovieIds.map((movieId) => {
+          favouritedMovieIds.map((movieId, index) => {
             return (
-              <Col span={24} lg={12}>
+              <Col span={24} lg={12} key={index}>
                 {/* <Fade bottom> */}
-                <ProfileTabCard movieId={movieId} />
+                <ProfileTabCard key={index} movieId={movieId} />
                 {/* </Fade> */}
               </Col>
             );

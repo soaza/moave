@@ -23,8 +23,6 @@ const App: React.FC = () => {
   if (!isAuthenticated) {
     return (
       <>
-        <Navigation />
-
         <Switch location={location} key={location.pathname}>
           <Route
             path="/register"
