@@ -127,7 +127,7 @@ const getUserInfoById = async (request, response, pool) => {
 
 const getUserInfoByUsername = async (request, response, pool) => {
   const { username } = request.params;
-  const query = `SELECT * FROM Users WHERE username = $1`;
+  const query = `SELECT * FROM Users WHERE username like '$1%'`;
   pool.query(query, [username], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
