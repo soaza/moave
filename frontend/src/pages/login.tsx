@@ -20,6 +20,7 @@ const LoginPage: React.FC<IProps> = (props) => {
         message.success("Successfully logged in!");
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("username", username);
         history.push("/");
       }
     } catch (error) {
