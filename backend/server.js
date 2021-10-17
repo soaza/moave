@@ -51,12 +51,9 @@ app.get("/following/:user_id", (req, res) => {
   accountController.getFollowing(req, res, pool);
 });
 
-app.get(
-  "/checkFollowing/:follower_username/:following_username",
-  (req, res) => {
-    accountController.checkFollowing(req, res, pool);
-  }
-);
+app.get("/checkFollowing", (req, res) => {
+  accountController.checkFollowing(req, res, pool);
+});
 
 // Search Users
 app.get("/searchUserById/:user_id", (req, res) => {

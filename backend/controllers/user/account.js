@@ -253,7 +253,8 @@ const getFollowing = async (request, response, pool) => {
 };
 
 const checkFollowing = async (request, response, pool) => {
-  const { follower_id, following_id } = request.params;
+  const { follower_id, following_id } = request.query;
+
   const query = `
       SELECT *
       FROM Follows NATURAL JOIN users
@@ -268,6 +269,7 @@ const checkFollowing = async (request, response, pool) => {
       });
     } else {
       response.status(200).json({
+        following: results.rows[0] ? true : false,
         success: true,
       });
     }

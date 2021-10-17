@@ -40,3 +40,8 @@ export interface IUserDataEndpoint {
 export interface IUsersDataEndpoint {
   data: IUserData[];
 }
+
+export interface ICheckFollowingEndpoint {
+  following: boolean;
+  success: boolean;
+}

@@ -1,4 +1,5 @@
 import {
+  ICheckFollowingEndpoint,
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
   IUserDataEndpoint,
@@ -125,5 +126,23 @@ export const getUsersByUsername = async (username: string) => {
   return get<IUsersDataEndpoint>({
     endpoint: `${BASE_URL}/getUsersByUsername`,
     params: { username: username },
+  });
+};
+
+// Social
+export const checkFollowing = async (
+  follower_id: string,
+  following_id: string
+) => {
+  return get<ICheckFollowingEndpoint>({
+    endpoint: `${BASE_URL}/checkFollowing`,
+    params: { follower_id: follower_id, following_id: following_id },
+  });
+};
+
+export const follow = async (follower_id: string, following_id: string) => {
+  return post<{ success: boolean }>({
+    endpoint: `${BASE_URL}/follow`,
+    data: { followerId: follower_id, followingId: following_id },
   });
 };

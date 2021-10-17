@@ -30,7 +30,7 @@ const UserSearchBar: React.FC = (props) => {
         res.data
           // Exclude current user
           .filter((obj) => obj.username !== currentUser)
-          .map((item) => {
+          .forEach((item) => {
             optionsArr.push({
               value: item.user_id,
               label: item.username,

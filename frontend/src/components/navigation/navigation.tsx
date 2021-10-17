@@ -42,7 +42,7 @@ const Navigation: React.FC = () => {
         </Col>
 
         <Col span={24} lg={8}>
-          {searchType == TSearchType.movies ? (
+          {searchType === TSearchType.movies ? (
             <MovieSearchBar />
           ) : (
             <UserSearchBar />
@@ -63,7 +63,7 @@ const Navigation: React.FC = () => {
             }}
             type="primary"
           >
-            {searchType == TSearchType.movies ? (
+            {searchType === TSearchType.movies ? (
               <span>
                 Search Users <UserOutlined />
               </span>
