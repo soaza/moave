@@ -146,3 +146,10 @@ export const follow = async (follower_id: string, following_id: string) => {
     data: { followerId: follower_id, followingId: following_id },
   });
 };
+
+export const unfollow = async (follower_id: string, following_id: string) => {
+  return post<{ success: boolean }>({
+    endpoint: `${BASE_URL}/unfollow`,
+    data: { followerId: follower_id, followingId: following_id },
+  });
+};

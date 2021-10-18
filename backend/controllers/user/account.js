@@ -204,6 +204,27 @@ const followAccount = async (request, response, pool) => {
   });
 };
 
+const unfollowAccount = async (request, response, pool) => {
+  // info is for the person u are tryna follow
+  const body = request.body;
+  const followerId = body.followerId;
+  const followingId = body.followingId;
+
+  const query = `DELETE FROM follows WHERE follower_id = $1 and following_id = $2`;
+  pool.query(query, [followerId, followingId], (error, results) => {
+    if (error) {
+      console.log(error);
+      response.status(500).json({
+        success: false,
+      });
+    } else {
+      response.status(200).json({
+        success: true,
+      });
+    }
+  });
+};
+
 const getFollowers = async (request, response, pool) => {
   const { user_id } = request.params;
   const query = `SELECT user_id, email, username
@@ -283,6 +304,7 @@ module.exports = {
   getUserInfoByUsername,
   getUserInfoByEmail,
   followAccount,
+  unfollowAccount,
   getFollowers,
   getFollowing,
   matchUserInfoByUsername,

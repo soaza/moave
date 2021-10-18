@@ -1,6 +1,6 @@
 import { Avatar, Button, Col, message, Row, Tabs } from "antd";
 import * as React from "react";
-import { checkFollowing, follow } from "../../common/api";
+import { checkFollowing, follow, unfollow } from "../../common/api";
 import { IUserData } from "../../common/interfaces.d";
 import ProfileTab from "./profile-tab";
 
@@ -42,6 +42,15 @@ const ProfileLanding: React.FC<IProps> = (props) => {
       checkFollowingUser();
     }
   };
+
+  const unfollowUser = async () => {
+    const res = await unfollow(loggedUserId, user.user_id);
+    if (res.success) {
+      message.success("Unfollowed user!");
+      checkFollowingUser();
+    }
+  };
+
   return (
     <>
       <Row justify="center">
@@ -63,7 +72,7 @@ const ProfileLanding: React.FC<IProps> = (props) => {
               {!isOwnProfile && (
                 <Row style={{ marginTop: 20 }} justify="center">
                   {following ? (
-                    <Button disabled block type="ghost">
+                    <Button onClick={() => unfollowUser()} block type="primary">
                       Following
                     </Button>
                   ) : (

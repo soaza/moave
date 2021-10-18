@@ -43,6 +43,10 @@ app.post("/follow", (req, res) => {
   accountController.followAccount(req, res, pool);
 });
 
+app.post("/unfollow", (req, res) => {
+  accountController.unfollowAccount(req, res, pool);
+});
+
 app.get("/followers/:user_id", (req, res) => {
   accountController.getFollowers(req, res, pool);
 });
