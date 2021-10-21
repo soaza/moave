@@ -1,7 +1,7 @@
 import * as React from "react";
 import { getUserByUserId } from "../common/api";
 import { IUserData } from "../common/interfaces.d";
-import ProfileLanding from "../components/profile/profile_landing";
+import ProfileLanding from "../components/profile/profile-landing";
 
 const { useEffect, useState } = React;
 

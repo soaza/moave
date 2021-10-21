@@ -243,7 +243,9 @@ const getFollowers = async (request, response, pool) => {
       });
     } else {
       response.status(200).json({
-        Followers: results.rows,
+        data: results.rows,
+        success: true,
+        size: results.rows.length,
       });
     }
   });
@@ -267,7 +269,9 @@ const getFollowing = async (request, response, pool) => {
       });
     } else {
       response.status(200).json({
-        Following: results.rows,
+        data: results.rows,
+        success: true,
+        size: results.rows.length,
       });
     }
   });

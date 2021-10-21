@@ -39,6 +39,7 @@ export interface IUserDataEndpoint {
 
 export interface IUsersDataEndpoint {
   data: IUserData[];
+  size: number;
 }
 
 export interface ICheckFollowingEndpoint {

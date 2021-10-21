@@ -153,3 +153,17 @@ export const unfollow = async (follower_id: string, following_id: string) => {
     data: { followerId: follower_id, followingId: following_id },
   });
 };
+
+export const getFollowings = async (user_id: string) => {
+  return get<IUsersDataEndpoint>({
+    endpoint: `${BASE_URL}/following`,
+    URL_params: { user_id: user_id },
+  });
+};
+
+export const getFollowers = async (user_id: string) => {
+  return get<IUsersDataEndpoint>({
+    endpoint: `${BASE_URL}/followers`,
+    URL_params: { user_id: user_id },
+  });
+};
