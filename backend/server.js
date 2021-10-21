@@ -89,6 +89,10 @@ app.get("/get_latest_movies", (req, res) => {
   movieController.getLatestMovies(req, res, pool);
 });
 
+app.get("/get_recommended_movies", (req, res) => {
+  movieController.getRecommendedMovies(req, res, pool);
+});
+
 module.exports = {
   pool,
 };
