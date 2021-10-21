@@ -15,8 +15,6 @@ const ProfileTab: React.FC<any> = ({ title }) => {
 
   return (
     <>
-      {/* <h1>{title}</h1> */}
-
       <Row gutter={[30, 30]}>
         {favouritedMovieIds?.length > 0 &&
           favouritedMovieIds.map((movieId, index) => {

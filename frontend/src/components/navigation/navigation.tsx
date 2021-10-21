@@ -18,7 +18,7 @@ enum TSearchType {
 
 const Navigation: React.FC = () => {
   const history = useHistory();
-  const [searchType, setSearchType] = useState<TSearchType>(TSearchType.user);
+  const [searchType, setSearchType] = useState<TSearchType>(TSearchType.movies);
 
   const handleSignOut = () => {
     localStorage.removeItem("isAuthenticated");

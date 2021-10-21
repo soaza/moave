@@ -2,6 +2,7 @@ import {
   ICheckFollowingEndpoint,
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
+  IRecommendedMoviesDataEndpoint,
   IUserDataEndpoint,
   IUsersDataEndpoint,
 } from "./interfaces.d";
@@ -111,6 +112,13 @@ export const getMoviesOnSearch = async (
 export const getLatestMovies = async () => {
   return get<IMoviesDataEndpoint>({
     endpoint: `${BASE_URL}/get_latest_movies`,
+  });
+};
+
+export const getRecommendedMovies = async (keyword: string) => {
+  return get<IRecommendedMoviesDataEndpoint>({
+    endpoint: `${BASE_URL}/get_recommended_movies`,
+    params: { query: keyword },
   });
 };
 

@@ -33,6 +33,11 @@ export interface IMoviesDataEndpoint {
   data: IMoviesData;
 }
 
+export interface IRecommendedMoviesDataEndpoint {
+  data: IMovieData[];
+  count: number;
+}
+
 export interface IUserDataEndpoint {
   data: IUserData;
 }
