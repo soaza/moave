@@ -195,11 +195,6 @@ const addMovieToWatchlist = async (request, response, pool) => {
     });
   };
 
-
-
-
-
-
 module.exports = {
     addMovieToWatchlist,
     addMovieToCompleted,

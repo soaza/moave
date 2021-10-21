@@ -2,7 +2,7 @@
 const createGroup = async (request, response, pool) => {
     const body = request.body;
     const admin_id = body.admin_id;
-    const groupName = body.groupName;
+    const group_name = body.group_name;
    
     const check = `SELECT * FROM Users where user_id = $1`;
     pool.query(check, [admin_id], (error, results) => {
@@ -13,7 +13,7 @@ const createGroup = async (request, response, pool) => {
         });
       } else {
         const query = `INSERT INTO Groups VALUES (DEFAULT, $1,$2)`;
-        pool.query(query, [groupName, admin_id], (error, results) => {
+        pool.query(query, [group_name, admin_id], (error, results) => {
           if (error) {
             console.log(error);
             response.status(500).json({
@@ -21,7 +21,7 @@ const createGroup = async (request, response, pool) => {
             });
           } else {
             response.status(200).json({
-              Success: `Group ${groupName} successfully created!`,
+              Success: `Group ${group_name} successfully created!`,
             });
           }
         });
@@ -149,8 +149,6 @@ const createGroup = async (request, response, pool) => {
       }
     });
   };
-
-
 
 module.exports = {
     createGroup,
