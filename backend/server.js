@@ -18,9 +18,12 @@ app.use((req, res, next) => {
 const database = require("./model/pool");
 
 let pool = database.pool;
+
 // Controllers
 const accountController = require("./controllers/user/account");
 const movieController = require("./controllers/movies");
+const groupController = require("./controllers/groupControllers/group");
+const activityController = require("./controllers/activityControllers/activity");
 
 const port = 3001;
 app.listen(port, () => {
@@ -87,6 +90,69 @@ app.get("/get_movies", (req, res) => {
 
 app.get("/get_latest_movies", (req, res) => {
   movieController.getLatestMovies(req, res, pool);
+});
+
+// Group Management
+app.post("/createGroup", (req, res) => {
+  groupController.createGroup(req, res, pool);
+});
+
+app.delete("/deleteGroup", (req, res) => {
+  groupController.deleteGroup(req, res, pool);
+});
+
+app.post("/joinGroup", (req, res) => {
+  groupController.joinGroup(req, res, pool);
+});
+
+app.get("/searchGroupById/:group_id", (req, res) => {
+  groupController.getGroupById(req, res, pool);
+});
+
+app.delete("/leaveGroup", (req, res) => {
+  groupController.leaveGroup(req, res, pool);
+});
+
+
+// Updating Activities
+app.post("/addMovieToWatchlist", (req, res) => {
+  activityController.addMovieToWatchlist(req, res, pool);
+});
+
+app.post("/addMovieToCompleted", (req, res) => {
+  activityController.addMovieToCompleted(req, res, pool);
+});
+
+app.post("/addMovieToCurrentlyWatching", (req, res) => {
+  activityController.addMovieToCurrentlyWatching(req, res, pool);
+});
+
+app.put("/updateMovieToCompleted", (req, res) => {
+  activityController.updateMovieToCompleted(req, res, pool);
+});
+
+app.put("/updateMovieToWatchlist", (req, res) => {
+  activityController.updateMovieToWatchlist(req, res, pool);
+});
+
+app.put("/updateMovieToCurrentlyWatching", (req, res) => {
+  activityController.updateMovieToCurrentlyWatching(req, res, pool);
+});
+
+app.delete("/dropMovie", (req, res) => {
+  activityController.dropMovie(req, res, pool);
+});
+
+app.get("/getCompleted/:user_id", (req, res) => {
+  activityController.getCompleted(req, res, pool);
+});
+
+app.get("/getWatchlist/:user_id", (req, res) => {
+  activityController.getWatchlist(req, res, pool);
+});
+
+app.get("/getCurrentlyWatching/:user_id", (req, res) => {
+  activityController.getCurrentlyWatching(req, res, pool);
 });
 
 module.exports = {
