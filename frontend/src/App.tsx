@@ -10,6 +10,7 @@ import RegisterPage from "./pages/register";
 import LoginPage from "./pages/login";
 import NotFoundPage from "./pages/404-page";
 import MyProfilePage from "./pages/my_profile";
+import SimilarMoviesPage from "./pages/similar-movies-page";
 
 const { useState, useEffect } = React;
 const App: React.FC = () => {
@@ -59,6 +60,8 @@ const App: React.FC = () => {
 
         <Route path="/movie" component={MoviePage} />
         <Route path="/movies" component={MoviesPage} />
+        <Route path="/similar_movies" component={SimilarMoviesPage} />
+
         <Route path="/" component={NotFoundPage} />
       </Switch>
     </>

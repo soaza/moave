@@ -8,6 +8,7 @@ import { useViewPort } from "../common/viewport";
 import ProfileTabCard from "../components/profile/profile-tab-card";
 import RecommendedMovieCard from "../components/movie/recommended-movie-card";
 import { Link } from "react-scroll";
+import { useHistory } from "react-router";
 
 const { Title } = Typography;
 const { useEffect, useState } = React;
@@ -19,10 +20,9 @@ const movieId = parseInt(
 const MoviePage: React.FC = () => {
   const [shownMovie, setShownMovie] = useState<IMovieData>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [recommendedMovies, setRecommendedMovies] = useState<IMovieData[]>([]);
-  console.log(recommendedMovies);
 
   const { isMobile } = useViewPort();
+  const history = useHistory();
 
   const fetchMovie = async () => {
     setLoading(true);
@@ -31,27 +31,20 @@ const MoviePage: React.FC = () => {
     setLoading(false);
   };
 
-  const fetchRecommendedMovies = async (title: string) => {
-    const response = await getRecommendedMovies(title);
-    setRecommendedMovies(response.data);
-  };
-
   useEffect(() => {
     if (movieId) {
       fetchMovie();
     }
   }, []);
 
-  useEffect(() => {
-    if (shownMovie) {
-      fetchRecommendedMovies(shownMovie.title);
-    }
-  }, [shownMovie]);
-
   const posterLink = `https://image.tmdb.org/t/p/w500/${shownMovie?.poster_path}`;
 
   const formatRating = (rating: number) => {
     return Math.floor((rating / 10) * 5);
+  };
+
+  const handleRedirectSimilarMovies = () => {
+    history.push(`/similar_movies?movie_title=${shownMovie?.title}`);
   };
 
   return (
@@ -111,36 +104,11 @@ const MoviePage: React.FC = () => {
               </Row>
               <p>{shownMovie.overview}</p>
               <MovieFavourite movie_id={shownMovie.id} />
-              {recommendedMovies.length > 0 && (
-                <Link to="recommended" spy={true} smooth={true}>
-                  <Button type="link">View similar movies</Button>
-                </Link>
-              )}
+              <Button onClick={handleRedirectSimilarMovies} type="link">
+                View similar movies
+              </Button>
             </Col>
           </Row>
-
-          {recommendedMovies.length > 0 && (
-            <>
-              <Row id="recommended">
-                <Title style={{ margin: 0 }}>Similar Movies</Title>
-              </Row>
-              <Row>
-                <Title style={{ color: "gray" }} level={3}>
-                  Check out similar movies to {shownMovie.title}
-                </Title>
-              </Row>
-
-              <Row>
-                {recommendedMovies?.map((movie) => {
-                  return (
-                    <Col span={6}>
-                      <RecommendedMovieCard movieId={String(movie.id)} />
-                    </Col>
-                  );
-                })}
-              </Row>
-            </>
-          )}
         </>
       )}
     </>
