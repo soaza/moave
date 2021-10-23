@@ -24,6 +24,10 @@ export interface IUserData {
   email: string;
 }
 
+export interface IMovieActivityData {
+  movie_id: string;
+}
+
 // Endpoints
 export interface IMovieDataEndpoint {
   data: IMovieData;
@@ -50,4 +54,15 @@ export interface IUsersDataEndpoint {
 export interface ICheckFollowingEndpoint {
   following: boolean;
   success: boolean;
+}
+
+export interface IMovieActivityDataEndpoint {
+  data: IMovieActivityData[];
+}
+
+// Enums
+export enum TActivityEnum {
+  "COMPLETED",
+  "WATCHLIST",
+  "CURRENT",
 }

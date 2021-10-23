@@ -12,7 +12,7 @@ interface IProps {
 const { Title } = Typography;
 const { useEffect, useState } = React;
 
-const SimilarMoviesPage: React.FC<IProps> = ({}) => {
+const SimilarMoviesPage: React.FC<IProps> = () => {
   const [recommendedMovies, setRecommendedMovies] = useState<IMovieData[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ const SimilarMoviesPage: React.FC<IProps> = ({}) => {
 
   useEffect(() => {
     fetchRecommendedMovies(movie_title);
-  }, []);
+  }, [movie_title]);
 
   return (
     <>
@@ -56,7 +56,7 @@ const SimilarMoviesPage: React.FC<IProps> = ({}) => {
                   </Col>
                 );
               })}
-            {!loading && recommendedMovies.length == 0 && (
+            {!loading && recommendedMovies.length === 0 && (
               <div>No movies found.</div>
             )}
           </Row>

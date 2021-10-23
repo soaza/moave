@@ -1,10 +1,12 @@
 import {
   ICheckFollowingEndpoint,
+  IMovieActivityDataEndpoint,
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
   IRecommendedMoviesDataEndpoint,
   IUserDataEndpoint,
   IUsersDataEndpoint,
+  TActivityEnum,
 } from "./interfaces.d";
 
 require("dotenv").config();
@@ -172,6 +174,31 @@ export const getFollowings = async (user_id: string) => {
 export const getFollowers = async (user_id: string) => {
   return get<IUsersDataEndpoint>({
     endpoint: `${BASE_URL}/followers`,
+    URL_params: { user_id: user_id },
+  });
+};
+
+// Movie Activities
+export const getMovieList = async (user_id: string, activityType: string) => {
+  let mappedURL;
+
+  switch (activityType) {
+    case "COMPLETED": {
+      mappedURL = "getCompleted";
+      break;
+    }
+    case "CURRENT": {
+      mappedURL = "getCurrentlyWatching";
+      break;
+    }
+    case "WATCHLIST": {
+      mappedURL = "getWatchlist";
+      break;
+    }
+  }
+
+  return get<IMovieActivityDataEndpoint>({
+    endpoint: `${BASE_URL}/${mappedURL}`,
     URL_params: { user_id: user_id },
   });
 };

@@ -1,13 +1,10 @@
 import * as React from "react";
-import { getRecommendedMovies, getSoloMovie } from "../common/api";
+import { getSoloMovie } from "../common/api";
 import { IMovieData } from "../common/interfaces.d";
 import { Rate, Col, Row, Typography, Button } from "antd";
 import Loader from "../components/loader/loader";
 import MovieFavourite from "../components/movie/movie-favourite";
 import { useViewPort } from "../common/viewport";
-import ProfileTabCard from "../components/profile/profile-tab-card";
-import RecommendedMovieCard from "../components/movie/recommended-movie-card";
-import { Link } from "react-scroll";
 import { useHistory } from "react-router";
 
 const { Title } = Typography;

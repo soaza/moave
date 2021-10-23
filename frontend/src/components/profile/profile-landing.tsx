@@ -1,13 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Col,
-  Divider,
-  message,
-  Popover,
-  Row,
-  Tabs,
-} from "antd";
+import { Avatar, Button, Col, message, Popover, Row, Tabs } from "antd";
 
 import * as React from "react";
 import {
@@ -17,18 +8,16 @@ import {
   getFollowings,
   unfollow,
 } from "../../common/api";
-import { IUserData } from "../../common/interfaces.d";
+import { IUserData, TActivityEnum } from "../../common/interfaces.d";
 import ProfileTab from "./profile-tab";
 import ProfileUserRow from "./profile-user-row";
 
 const { TabPane } = Tabs;
 
 const TABS = [
-  { title: "Currently Watching", key: "watching" },
-  { title: "Completed", key: "completed" },
-  { title: "On Hold", key: "paused" },
-  { title: "Dropped", key: "dropped" },
-  { title: "Plan to Watch", key: "planned" },
+  { title: "Currently Watching", key: "CURRENT" },
+  { title: "Completed", key: "COMPLETED" },
+  { title: "Plan to Watch", key: "WATCHLIST" },
 ];
 
 interface IProps {
@@ -191,7 +180,10 @@ const ProfileLanding: React.FC<IProps> = (props) => {
             {TABS.map((tab, index) => {
               return (
                 <TabPane tab={tab.title} key={index}>
-                  <ProfileTab title={tab.title} />
+                  <ProfileTab
+                    user_id={isOwnProfile ? loggedUserId : user.user_id}
+                    tabKey={tab.key}
+                  />
                 </TabPane>
               );
             })}
