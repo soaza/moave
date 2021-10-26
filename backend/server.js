@@ -158,6 +158,10 @@ app.get("/getCurrentlyWatching/:user_id", (req, res) => {
   activityController.getCurrentlyWatching(req, res, pool);
 });
 
+app.get("/checkMovieAdded", (req, res) => {
+  activityController.checkMovieAdded(req, res, pool);
+});
+
 module.exports = {
   pool,
 };

@@ -195,6 +195,24 @@ const getCurrentlyWatching = async (request, response, pool) => {
   });
 };
 
+const checkMovieAdded = async (request, response, pool) => {
+  const { user_id, movie_id } = request.query;
+  const query = `SELECT * FROM ActivityList WHERE user_id = $1 and movie_id = $2`;
+  pool.query(query, [user_id, movie_id], async (error, results) => {
+    if (error) {
+      console.log(error);
+      response.status(500).json({
+        success: false,
+      });
+    } else {
+      response.status(200).json({
+        added: results.rows.length > 0,
+        success: true,
+      });
+    }
+  });
+};
+
 module.exports = {
   addMovieToWatchlist,
   addMovieToCompleted,
@@ -206,4 +224,5 @@ module.exports = {
   getCompleted,
   getWatchlist,
   getCurrentlyWatching,
+  checkMovieAdded,
 };
