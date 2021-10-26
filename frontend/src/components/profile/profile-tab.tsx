@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import * as React from "react";
 import { getMovieList } from "../../common/api";
-import { IMovieActivityData, TActivityEnum } from "../../common/interfaces.d";
+import { IMovieActivityData } from "../../common/interfaces.d";
 import Loader from "../loader/loader";
 import ProfileTabCard from "./profile-tab-card";
 

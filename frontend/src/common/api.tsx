@@ -6,7 +6,6 @@ import {
   IRecommendedMoviesDataEndpoint,
   IUserDataEndpoint,
   IUsersDataEndpoint,
-  TActivityEnum,
 } from "./interfaces.d";
 
 require("dotenv").config();
@@ -60,9 +59,9 @@ async function get<T>(request: IRequest): Promise<T> {
   return await makeRequest(request, "GET");
 }
 
-// async function patch<T>(request: IRequest): Promise<T> {
-//   return await makeRequest(request, "PATCH");
-// }
+async function patch<T>(request: IRequest): Promise<T> {
+  return await makeRequest(request, "PUT");
+}
 
 async function post<T>(request: IRequest): Promise<T> {
   return await makeRequest(request, "POST");
@@ -200,5 +199,47 @@ export const getMovieList = async (user_id: string, activityType: string) => {
   return get<IMovieActivityDataEndpoint>({
     endpoint: `${BASE_URL}/${mappedURL}`,
     URL_params: { user_id: user_id },
+  });
+};
+
+export const addToMovieList = async (user_id: string, movie_id: number) => {
+  return post<IMovieActivityDataEndpoint>({
+    endpoint: `${BASE_URL}/addMovieToCurrentlyWatching`,
+    data: { user_id: user_id, movie_id: movie_id },
+  });
+};
+
+export const updateMovieList = async (
+  user_id: string,
+  movie_id: number,
+  activityType: string
+) => {
+  let mappedURL;
+
+  switch (activityType) {
+    case "COMPLETED": {
+      mappedURL = "updateMovieToCompleted";
+      break;
+    }
+    case "WATCHLIST": {
+      mappedURL = "updateMovieToWatchlist";
+      break;
+    }
+    case "CURRENT": {
+      mappedURL = "updateMovieToCurrentlyWatching";
+      break;
+    }
+  }
+
+  return patch<IMovieActivityDataEndpoint>({
+    endpoint: `${BASE_URL}/${mappedURL}`,
+    data: { user_id: user_id, movie_id: movie_id },
+  });
+};
+
+export const checkMovieAdded = async (user_id: string, movie_id: number) => {
+  return get<{ added: boolean; success: boolean; status: string }>({
+    endpoint: `${BASE_URL}/checkMovieAdded`,
+    params: { user_id: user_id, movie_id: movie_id },
   });
 };

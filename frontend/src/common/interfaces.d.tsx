@@ -61,8 +61,8 @@ export interface IMovieActivityDataEndpoint {
 }
 
 // Enums
-export enum TActivityEnum {
-  "COMPLETED",
-  "WATCHLIST",
-  "CURRENT",
-}
+export const defaultActivities = [
+  { value: "COMPLETED", label: "Completed" },
+  { value: "CURRENT", label: "Currently Watching" },
+  { value: "WATCHLIST", label: "Plan to Watch" },
+];

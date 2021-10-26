@@ -208,6 +208,7 @@ const checkMovieAdded = async (request, response, pool) => {
       response.status(200).json({
         added: results.rows.length > 0,
         success: true,
+        status: results.rows.length > 0 ? results.rows[0].activity_type : "",
       });
     }
   });

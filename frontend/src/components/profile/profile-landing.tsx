@@ -8,7 +8,7 @@ import {
   getFollowings,
   unfollow,
 } from "../../common/api";
-import { IUserData, TActivityEnum } from "../../common/interfaces.d";
+import { IUserData } from "../../common/interfaces.d";
 import ProfileTab from "./profile-tab";
 import ProfileUserRow from "./profile-user-row";
 

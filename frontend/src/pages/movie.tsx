@@ -3,7 +3,7 @@ import { getSoloMovie } from "../common/api";
 import { IMovieData } from "../common/interfaces.d";
 import { Rate, Col, Row, Typography, Button } from "antd";
 import Loader from "../components/loader/loader";
-import MovieFavourite from "../components/movie/movie-favourite";
+import AddToListButton from "../components/movie/add-to-list-button";
 import { useViewPort } from "../common/viewport";
 import { useHistory } from "react-router";
 
@@ -100,7 +100,7 @@ const MoviePage: React.FC = () => {
                 </p>
               </Row>
               <p>{shownMovie.overview}</p>
-              <MovieFavourite movie_id={shownMovie.id} />
+              <AddToListButton movie_id={shownMovie.id} />
               <Button onClick={handleRedirectSimilarMovies} type="link">
                 View similar movies
               </Button>
