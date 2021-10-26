@@ -24,6 +24,8 @@ const accountController = require("./controllers/user/account");
 const movieController = require("./controllers/movies");
 const groupController = require("./controllers/groupControllers/group");
 const activityController = require("./controllers/activityControllers/activity");
+const eventController = require("./controllers/activityControllers/event");
+const userlistController = require("./controllers/activityControllers/userlist");
 
 const port = 3001;
 app.listen(port, () => {
@@ -160,6 +162,46 @@ app.get("/getCurrentlyWatching/:user_id", (req, res) => {
 
 app.get("/checkMovieAdded", (req, res) => {
   activityController.checkMovieAdded(req, res, pool);
+});
+
+// Events
+
+app.post("/addEvent", (req, res) => {
+  eventController.addEvent(req, res, pool);
+});
+
+app.get("/getEvents/:user_id", (req, res) => {
+  eventController.getEventsByUserId(req, res, pool);
+});
+
+app.get("/getFriendEvents/:user_id", (req, res) => {
+  eventController.getFriendEventsByUserId(req, res, pool);
+});
+
+// User List
+
+app.post("/addUserList", (req, res) => {
+  userlistController.addUserList(req, res, pool);
+});
+
+app.delete("/deleteUserList/:list_id", (req, res) => {
+  userlistController.deleteUserList(req, res, pool);
+});
+
+app.post("/addMovieToUserList", (req, res) => {
+  userlistController.addMovieToUserList(req, res, pool);
+});
+
+app.get("/getMoviesFromUserList/:list_id", (req, res) => {
+  userlistController.getMoviesFromUserList(req, res, pool);
+});
+
+app.delete("/deleteMovieFromUserList", (req, res) => {
+  userlistController.deleteMovieFromUserList(req, res, pool);
+});
+
+app.get("/getUserLists/:user_id", (req, res) => {
+  userlistController.getUserLists(req, res, pool);
 });
 
 module.exports = {

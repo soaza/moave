@@ -47,6 +47,30 @@ CREATE TABLE ActivityList(
     PRIMARY KEY (user_id, movie_id)
 );
 
+CREATE TABLE EventLog(
+    event_id SERIAL PRIMARY KEY,
+    event_date timestamp,
+    user_id INTEGER references Users(user_id),
+    movie_id INTEGER NOT NULL,
+    event_type TEXT NOT NULL,
+    check (event_type in ('ADD', 'UPDATE', 'REMOVE')),
+    activity_type TEXT NOT NULL,
+    check (activity_type in ('COMPLETED', 'WATCHLIST', 'CURRENT'))
+);
+
+CREATE TABLE UserLists(
+    list_id SERIAL UNIQUE NOT NULL,
+    user_id INTEGER references Users(user_id),
+    list_name TEXT NOT NULL,
+    PRIMARY KEY (user_id, list_name)
+);
+
+CREATE TABLE UserListEntries(
+    list_id INTEGER references UserLists(list_id),
+    movie_id INTEGER NOT NULL, 
+    PRIMARY KEY(list_id, movie_id)
+);
+
 
 -- trigger and function set for group creation
 CREATE OR REPLACE FUNCTION update_userGroups_on_create_func() RETURNS TRIGGER
