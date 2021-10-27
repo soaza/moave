@@ -81,10 +81,6 @@ const getThreadsInGroup = async (request, response, pool) => {
     });
 };
 
-
-
-
-
 module.exports = {
     createThread,
     deleteThread,

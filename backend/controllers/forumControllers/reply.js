@@ -108,10 +108,6 @@ const getRepliesInThread = async (request, response, pool) => {
     });
 };
 
-
-
-
-
 module.exports = {
     createReply,
     deleteReply,

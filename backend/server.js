@@ -233,8 +233,6 @@ app.get("/getRepliesInThread/:thread_id", (req, res) => {
   replyController.getRepliesInThread(req, res, pool);
 });
 
-
-
 module.exports = {
   pool,
 };
