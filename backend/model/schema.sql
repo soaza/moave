@@ -29,6 +29,7 @@ CREATE TABLE Follows (
 CREATE TABLE Groups (
     group_id SERIAL PRIMARY KEY,
     group_name TEXT UNIQUE NOT NULL,
+    group_description TEXT,
     admin_id INTEGER references Users(user_id)
 );
 
@@ -71,6 +72,26 @@ CREATE TABLE UserListEntries(
     PRIMARY KEY(list_id, movie_id)
 );
 
+-- post and reply in group 
+
+CREATE TABLE Threads(
+    thread_id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    created_date timestamp,
+    author_id INTEGER references Users(user_id),
+    group_id INTEGER NOT NULL references Groups(group_id),
+    description TEXT NOT NULL
+    
+);
+
+CREATE TABLE Replies(
+    reply_id SERIAL PRIMARY KEY,
+    thread_id INTEGER references Threads(thread_id),
+    created_date timestamp,
+    author_id INTEGER references Users(user_id),
+    description TEXT NOT NULL
+    
+);
 
 -- trigger and function set for group creation
 CREATE OR REPLACE FUNCTION update_userGroups_on_create_func() RETURNS TRIGGER
