@@ -23,7 +23,7 @@ const ProfileTab: React.FC<any> = ({ tabKey, user_id }) => {
       setLoading(false);
     };
     fetchMovies();
-  }, []);
+  }, [user_id, tabKey]);
 
   return (
     <>
@@ -42,7 +42,7 @@ const ProfileTab: React.FC<any> = ({ tabKey, user_id }) => {
             );
           })}
 
-        {!loading && displayedMovieIds?.length == 0 && (
+        {!loading && displayedMovieIds?.length === 0 && (
           <div>No movies found.</div>
         )}
       </Row>

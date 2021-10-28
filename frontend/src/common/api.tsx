@@ -243,3 +243,21 @@ export const checkMovieAdded = async (user_id: string, movie_id: number) => {
     params: { user_id: user_id, movie_id: movie_id },
   });
 };
+
+// Events
+export const addEvent = async (
+  user_id: string,
+  movie_id: number,
+  event_type: string,
+  activityType: string
+) => {
+  return post<{ success: any }>({
+    endpoint: `${BASE_URL}/addEvent`,
+    data: {
+      user_id: user_id,
+      movie_id: movie_id,
+      event_type: event_type,
+      activity_type: activityType,
+    },
+  });
+};

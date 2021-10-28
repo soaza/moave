@@ -1,8 +1,9 @@
 import { Button, Row, Select } from "antd";
 import * as React from "react";
-import { CheckOutlined, HeartOutlined } from "@ant-design/icons";
+import { HeartOutlined } from "@ant-design/icons";
 import { defaultActivities } from "../../common/interfaces.d";
 import {
+  addEvent,
   addToMovieList,
   checkMovieAdded,
   updateMovieList,
@@ -30,15 +31,21 @@ const AddToListButton: React.FC<IProps> = (props) => {
     );
   });
 
+  const addUserEvent = async (activityType: string) => {
+    await addEvent(user_id, movie_id, "ADD", activityType);
+  };
+
   const handleSelected = async () => {
     setSelected(true);
-    const res = await addToMovieList(user_id, movie_id);
+    await addToMovieList(user_id, movie_id);
+    await addUserEvent("CURRENT");
     // Default to currently watching
     setMovieStatus("CURRENT");
   };
 
   const handleUpdateActivity = async (activityType: string) => {
-    const res = await updateMovieList(user_id, movie_id, activityType);
+    await updateMovieList(user_id, movie_id, activityType);
+    await addUserEvent(activityType);
     setMovieStatus(activityType);
   };
 
