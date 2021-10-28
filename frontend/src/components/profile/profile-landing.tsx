@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, message, Popover, Row, Tabs } from "antd";
+import { Avatar, Button, Col, message, Popover, Radio, Row, Tabs } from "antd";
 
 import * as React from "react";
 import {
@@ -9,6 +9,7 @@ import {
   unfollow,
 } from "../../common/api";
 import { IUserData } from "../../common/interfaces.d";
+import ProfileActivities from "./profile-activities";
 import ProfileTab from "./profile-tab";
 import ProfileUserRow from "./profile-user-row";
 
@@ -36,6 +37,9 @@ const ProfileLanding: React.FC<IProps> = (props) => {
   const [numFollowing, setNumFollowing] = useState<number>(0);
   const [usersFollower, setUsersFollower] = useState<IUserData[]>([]);
   const [numFollower, setNumFollowers] = useState<number>(0);
+  const [tabToShow, setTabToShow] = useState<"activities" | "movies">(
+    "activities"
+  );
 
   const profileUserId = isOwnProfile ? loggedUserId : user.user_id;
 
@@ -110,6 +114,11 @@ const ProfileLanding: React.FC<IProps> = (props) => {
     );
   };
 
+  const radioOptions = [
+    { label: "Activity", value: "activities" },
+    { label: "Movie Lists", value: "movies" },
+  ];
+
   return (
     <>
       <Row justify="center">
@@ -172,22 +181,36 @@ const ProfileLanding: React.FC<IProps> = (props) => {
             </Col>
           </Row>
 
-          <Tabs
-            style={{ marginTop: 10 }}
-            tabPosition="left"
-            defaultActiveKey="1"
-          >
-            {TABS.map((tab, index) => {
-              return (
-                <TabPane tab={tab.title} key={index}>
-                  <ProfileTab
-                    user_id={isOwnProfile ? loggedUserId : user.user_id}
-                    tabKey={tab.key}
-                  />
-                </TabPane>
-              );
-            })}
-          </Tabs>
+          <Row justify="center">
+            <Radio.Group
+              value={tabToShow}
+              onChange={(e) => setTabToShow(e.target.value)}
+              options={radioOptions}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </Row>
+
+          {tabToShow == "activities" && <ProfileActivities user={user} />}
+
+          {tabToShow == "movies" && (
+            <Tabs
+              style={{ marginTop: 10 }}
+              tabPosition="left"
+              defaultActiveKey="1"
+            >
+              {TABS.map((tab, index) => {
+                return (
+                  <TabPane tab={tab.title} key={index}>
+                    <ProfileTab
+                      user_id={isOwnProfile ? loggedUserId : user.user_id}
+                      tabKey={tab.key}
+                    />
+                  </TabPane>
+                );
+              })}
+            </Tabs>
+          )}
         </Col>
       </Row>
     </>

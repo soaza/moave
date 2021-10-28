@@ -1,5 +1,6 @@
 import {
   ICheckFollowingEndpoint,
+  IEventsDataEndpoint,
   IMovieActivityDataEndpoint,
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
@@ -259,5 +260,12 @@ export const addEvent = async (
       event_type: event_type,
       activity_type: activityType,
     },
+  });
+};
+
+export const getUserEvents = async (user_id: string) => {
+  return get<IEventsDataEndpoint>({
+    endpoint: `${BASE_URL}/getEvents`,
+    URL_params: { user_id: user_id },
   });
 };
