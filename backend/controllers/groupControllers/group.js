@@ -3,6 +3,7 @@ const createGroup = async (request, response, pool) => {
     const body = request.body;
     const admin_id = body.admin_id;
     const group_name = body.group_name;
+    const group_description = body.group_description;
    
     const check = `SELECT * FROM Users where user_id = $1`;
     pool.query(check, [admin_id], (error, results) => {
@@ -12,8 +13,8 @@ const createGroup = async (request, response, pool) => {
           Error: "admin_id does not exist",
         });
       } else {
-        const query = `INSERT INTO Groups VALUES (DEFAULT, $1,$2)`;
-        pool.query(query, [group_name, admin_id], (error, results) => {
+        const query = `INSERT INTO Groups VALUES (DEFAULT, $1,$2,$3)`;
+        pool.query(query, [group_name, group_description, admin_id], (error, results) => {
           if (error) {
             console.log(error);
             response.status(500).json({
@@ -150,10 +151,48 @@ const createGroup = async (request, response, pool) => {
     });
   };
 
-module.exports = {
-    createGroup,
-    deleteGroup,
-    joinGroup,
-    leaveGroup,
-    getGroupById
+  const editGroupDescription = async (request, response, pool) => {
+    const body = request.body;
+    const user_id = body.user_id;
+    const group_id = body.group_id;
+    const description = body.group_description;
+    
+    const checker = `SELECT * FROM Groups WHERE group_id = $1 AND admin_id = $2`;
+    pool.query(checker, [group_id, user_id], (error, results) => {
+      if (error) {
+        console.log(error);
+        response.status(500).json({
+          Error: "Unable to edit group description.",
+        });
+      } else {
+        if (!results.rows[0]) {
+          response.status(500).json({
+            Error: "You are not the owner of the group.",
+          });
+        } else {
+          const query = `UPDATE Groups SET group_description = $1 WHERE group_id = $2`;
+          pool.query(query, [description, group_id], (error, results) => {
+            if (error) {
+              console.log(error);
+              response.status(500).json({
+                Error: "Unable to edit group description.",
+              });
+            } else {
+              response.status(200).json({
+                Success: `Successfully edited description for group ${group_id}.`,
+              });
+            }
+          });
+        }
+      }
+    });
   };
+
+module.exports = {
+  createGroup,
+  deleteGroup,
+  joinGroup,
+  leaveGroup,
+  getGroupById,
+  editGroupDescription 
+};

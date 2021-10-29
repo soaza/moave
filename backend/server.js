@@ -26,6 +26,8 @@ const groupController = require("./controllers/groupControllers/group");
 const activityController = require("./controllers/activityControllers/activity");
 const eventController = require("./controllers/activityControllers/event");
 const userlistController = require("./controllers/activityControllers/userlist");
+const threadController = require("./controllers/forumControllers/thread");
+const replyController = require("./controllers/forumControllers/reply");
 
 const port = 3001;
 app.listen(port, () => {
@@ -109,6 +111,10 @@ app.delete("/deleteGroup", (req, res) => {
 
 app.post("/joinGroup", (req, res) => {
   groupController.joinGroup(req, res, pool);
+});
+
+app.put("/editGroupDescription", (req, res) => {
+  groupController.editGroupDescription(req, res, pool);
 });
 
 app.get("/searchGroupById/:group_id", (req, res) => {
@@ -202,6 +208,33 @@ app.delete("/deleteMovieFromUserList", (req, res) => {
 
 app.get("/getUserLists/:user_id", (req, res) => {
   userlistController.getUserLists(req, res, pool);
+});
+
+// Forum apis
+app.post("/createThread", (req, res) => {
+  threadController.createThread(req, res, pool);
+});
+
+app.delete("/deleteThread", (req, res) => {
+  threadController.deleteThread(req, res, pool);
+});
+
+//http://localhost:3001/getThreadsInGroup/3/1 (to give all threads in group 3)
+// user_id given for permission
+app.get("/getThreadsInGroup/:group_id/:user_id", (req, res) => {
+  threadController.getThreadsInGroup(req, res, pool);
+});
+
+app.post("/createReply", (req, res) => {
+  replyController.createReply(req, res, pool);
+});
+
+app.delete("/deleteReply", (req, res) => {
+  replyController.deleteReply(req, res, pool);
+});
+
+app.get("/getRepliesInThread/:thread_id", (req, res) => {
+  replyController.getRepliesInThread(req, res, pool);
 });
 
 module.exports = {
