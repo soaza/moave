@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Comment, Tooltip, Avatar } from "antd";
+import { Comment, Avatar, Button } from "antd";
 
 import {
   defaultActivities,
   IActivityListData,
   IEventData,
   IMovieData,
-  IUserData,
 } from "../../common/interfaces.d";
 import moment from "moment";
 import { getSoloMovie } from "../../common/api";
@@ -14,11 +13,10 @@ import { useHistory } from "react-router";
 
 interface IProps {
   event: IEventData;
-  user: IUserData;
 }
 
 const ProfileSingleActivity: React.FC<IProps> = (props) => {
-  const { event, user } = props;
+  const { event } = props;
   const history = useHistory();
 
   const [movie, setMovie] = useState<IMovieData>();
@@ -31,17 +29,29 @@ const ProfileSingleActivity: React.FC<IProps> = (props) => {
     };
     fetchMovie();
     setActivityList(
-      defaultActivities.find((a) => a.value == event.activity_type)
+      defaultActivities.find((a) => a.value === event.activity_type)
     );
-  }, []);
+  }, [event.movie_id, event.activity_type]);
 
   const handleRedirectToMoviePage = () => {
     history.push(`/movie?id=${movie?.id}`);
   };
 
+  const handleRedirectToProfilePage = () => {
+    history.push(`/profile?user_id=${event.user_id}`);
+  };
+
   const renderContent = (
     <p>
-      Added <a onClick={handleRedirectToMoviePage}>{movie?.title}</a> to his{" "}
+      Added{" "}
+      <Button
+        style={{ padding: 0 }}
+        type="link"
+        onClick={handleRedirectToMoviePage}
+      >
+        {movie?.title}
+      </Button>{" "}
+      to his{" "}
       <span style={{ color: activityList?.color }}>{activityList?.label} </span>
       list.
     </p>
@@ -49,10 +59,19 @@ const ProfileSingleActivity: React.FC<IProps> = (props) => {
 
   return (
     <Comment
-      author={<a>{user.username}</a>}
+      author={
+        <a
+          href={""}
+          style={{ padding: 0 }}
+          onClick={handleRedirectToProfilePage}
+          type="link"
+        >
+          {event.username}
+        </a>
+      }
       avatar={
         <Avatar
-          src={`https://avatars.dicebear.com/api/human/${user?.username}.svg`}
+          src={`https://avatars.dicebear.com/api/human/${event.username}.svg`}
         />
       }
       content={renderContent}

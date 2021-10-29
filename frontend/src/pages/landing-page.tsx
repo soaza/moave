@@ -1,14 +1,18 @@
 import * as React from "react";
 import { Carousel, Col, Row } from "antd";
-import { getLatestMovies } from "../common/api";
-import { IMovieData } from "../common/interfaces.d";
+import { getFriendsEvents, getLatestMovies } from "../common/api";
+import { IEventData, IMovieData } from "../common/interfaces.d";
 import { Link } from "react-router-dom";
+import ProfileSingleActivity from "../components/profile/profile-single-activity";
 
 const { useEffect, useState } = React;
 
 const LandingPage: React.FC = () => {
   const [latestMovies, setLatestMovies] = useState<IMovieData[]>();
   const [currentMovie, setCurrentMovie] = useState<IMovieData>();
+  const [newsfeedEvents, setNewsfeedEvents] = useState<IEventData[]>([]);
+
+  const loggedUserId = localStorage.getItem("user_id") as string;
 
   useEffect(() => {
     const fetchLatestMovies = async () => {
@@ -18,6 +22,15 @@ const LandingPage: React.FC = () => {
       );
     };
     fetchLatestMovies();
+
+    const fetchFriendsActivity = async () => {
+      const activityRes = await getFriendsEvents(loggedUserId);
+
+      console.log(activityRes);
+      setNewsfeedEvents(activityRes.data);
+    };
+
+    fetchFriendsActivity();
   }, []);
 
   return (
@@ -33,9 +46,10 @@ const LandingPage: React.FC = () => {
               dotPosition="top"
               effect="fade"
             >
-              {latestMovies?.map((movie) => {
+              {latestMovies?.map((movie, index) => {
                 return movie.backdrop_path ? (
                   <img
+                    key={index}
                     alt="Movie Poster"
                     src={`https://image.tmdb.org/t/p/w1280/${movie.backdrop_path}`}
                   ></img>
@@ -57,6 +71,14 @@ const LandingPage: React.FC = () => {
           </Col>
         </Row>
       </div>
+
+      <Row justify="center">
+        <Col span={18}>
+          {newsfeedEvents.map((event, index) => {
+            return <ProfileSingleActivity key={index} event={event} />;
+          })}
+        </Col>
+      </Row>
     </>
   );
 };

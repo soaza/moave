@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Comment, Tooltip, Avatar } from "antd";
-import moment from "moment";
+
 import { IEventData, IUserData } from "../../common/interfaces.d";
 import { getUserEvents } from "../../common/api";
 import ProfileSingleActivity from "./profile-single-activity";
@@ -21,12 +20,17 @@ const ProfileActivities: React.FC<IProps> = (props) => {
     };
 
     fetchEvents();
-  }, []);
+  }, [user.user_id]);
 
   return (
     <>
-      {events.map((event) => {
-        return <ProfileSingleActivity user={user} event={event} />;
+      {events.length === 0 && (
+        <div style={{ textAlign: "center", marginTop: "5vh" }}>
+          No activities found.
+        </div>
+      )}
+      {events.map((event, index) => {
+        return <ProfileSingleActivity key={index} event={event} />;
       })}
     </>
   );

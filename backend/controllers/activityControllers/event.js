@@ -28,7 +28,7 @@ const addEvent = async (request, response, pool) => {
 const getEventsByUserId = async (request, response, pool) => {
   const { user_id } = request.params;
 
-  const query = `SELECT * FROM EventLog WHERE user_id = $1 ORDER BY event_date DESC`;
+  const query = `SELECT * FROM EventLog NATURAL JOIN users WHERE user_id = $1 ORDER BY event_date DESC`;
   pool.query(query, [user_id], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
@@ -47,7 +47,7 @@ const getEventsByUserId = async (request, response, pool) => {
 const getFriendEventsByUserId = async (request, response, pool) => {
   const { user_id } = request.params;
 
-  const query = `SELECT * FROM EventLog WHERE EXISTS (
+  const query = `SELECT * FROM EventLog NATURAL JOIN users WHERE EXISTS (
                         SELECT follower_id 
                         FROM Follows
                         WHERE Follows.follower_id = $1

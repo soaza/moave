@@ -64,6 +64,7 @@ const ProfileLanding: React.FC<IProps> = (props) => {
     checkFollowingUser();
     getFollowingUsers();
     getFollowerUsers();
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const followUser = async () => {
@@ -165,7 +166,7 @@ const ProfileLanding: React.FC<IProps> = (props) => {
                 </Popover>
               </Row>
 
-              {!isOwnProfile && (
+              {!isOwnProfile && loggedUserId !== String(user.user_id) && (
                 <Row style={{ marginTop: 20 }} justify="center">
                   {following ? (
                     <Button onClick={() => unfollowUser()} block type="ghost">
@@ -191,9 +192,9 @@ const ProfileLanding: React.FC<IProps> = (props) => {
             />
           </Row>
 
-          {tabToShow == "activities" && <ProfileActivities user={user} />}
+          {tabToShow === "activities" && <ProfileActivities user={user} />}
 
-          {tabToShow == "movies" && (
+          {tabToShow === "movies" && (
             <Tabs
               style={{ marginTop: 10 }}
               tabPosition="left"

@@ -269,3 +269,10 @@ export const getUserEvents = async (user_id: string) => {
     URL_params: { user_id: user_id },
   });
 };
+
+export const getFriendsEvents = async (user_id: string) => {
+  return get<IEventsDataEndpoint>({
+    endpoint: `${BASE_URL}/getFriendEvents`,
+    URL_params: { user_id: user_id },
+  });
+};

@@ -34,6 +34,8 @@ export interface IEventData {
   movie_id: number;
   event_type: string;
   activity_type: string;
+  user_id: string;
+  username: string;
 }
 
 // Endpoints
