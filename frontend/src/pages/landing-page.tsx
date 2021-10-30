@@ -1,11 +1,19 @@
 import * as React from "react";
-import { Carousel, Col, Row } from "antd";
+import { Carousel, Col, Row, Tabs } from "antd";
 import { getFriendsEvents, getLatestMovies } from "../common/api";
 import { IEventData, IMovieData } from "../common/interfaces.d";
 import { Link } from "react-router-dom";
 import ProfileSingleActivity from "../components/profile/profile-single-activity";
 
 const { useEffect, useState } = React;
+
+const { TabPane } = Tabs;
+
+const TABS = [
+  { title: "Front Page", key: "FRONTPAGE" },
+  { title: "Completed", key: "COMPLETED" },
+  { title: "Plan to Watch", key: "WATCHLIST" },
+];
 
 const LandingPage: React.FC = () => {
   const [latestMovies, setLatestMovies] = useState<IMovieData[]>();
@@ -74,9 +82,21 @@ const LandingPage: React.FC = () => {
 
       <Row justify="center">
         <Col span={18}>
-          {newsfeedEvents.map((event, index) => {
-            return <ProfileSingleActivity key={index} event={event} />;
-          })}
+          <Tabs
+            style={{ marginTop: 10 }}
+            tabPosition="left"
+            defaultActiveKey="1"
+          >
+            {TABS.map((tab, index) => {
+              return (
+                <TabPane tab={tab.title} key={index}>
+                  {newsfeedEvents.map((event, index) => {
+                    return <ProfileSingleActivity key={index} event={event} />;
+                  })}
+                </TabPane>
+              );
+            })}
+          </Tabs>
         </Col>
       </Row>
     </>
