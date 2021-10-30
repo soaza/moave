@@ -129,7 +129,7 @@ INSERT INTO Follows values (1, 2);
 INSERT INTO Follows values (1, 3);
 INSERT INTO Follows values (2, 3);
 
-INSERT INTO Groups values (DEFAULT, 'MARVEL', 1);
+INSERT INTO Groups values (DEFAULT, 'MARVEL','A group for Marvel fans', 1);
 INSERT INTO UserGroups values (2, 1);
 
 INSERT INTO ActivityList values (1, 580489, 'COMPLETED');
