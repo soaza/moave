@@ -6,6 +6,7 @@ import {
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
   IRecommendedMoviesDataEndpoint,
+  IThreadDataEndpoint,
   IUserDataEndpoint,
   IUsersDataEndpoint,
 } from "./interfaces.d";
@@ -283,6 +284,13 @@ export const getGroupsUserJoined = async (user_id: string) => {
   return get<IGroupsDataEndpoint>({
     endpoint: `${BASE_URL}/getGroupsUserJoined`,
     URL_params: { user_id: user_id },
+  });
+};
+
+export const getThreadsInGroup = async (group_id: string, user_id: string) => {
+  return get<IThreadDataEndpoint>({
+    endpoint: `${BASE_URL}/getThreadsInGroup`,
+    URL_params: { group_id: group_id, user_id: user_id },
   });
 };
 

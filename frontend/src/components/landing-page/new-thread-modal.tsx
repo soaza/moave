@@ -1,17 +1,16 @@
 import React from "react";
 import { Button, Form, Input, message, Modal, Row } from "antd";
 import { createThread } from "../../common/api";
-import { group } from "console";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 interface IProps {
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
   group_id: string;
+  fetchThreads: () => void;
 }
 
 const NewThreadModal: React.FC<IProps> = (props) => {
-  const { showModal, setShowModal, group_id } = props;
+  const { showModal, setShowModal, group_id, fetchThreads } = props;
 
   const loggedUserId = localStorage.getItem("user_id") as string;
 
@@ -26,6 +25,7 @@ const NewThreadModal: React.FC<IProps> = (props) => {
     if (res.success) {
       message.success("Thread started!");
       setShowModal(false);
+      fetchThreads();
     } else {
       message.error("Server Error, please try again");
     }

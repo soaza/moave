@@ -52,6 +52,16 @@ export interface IGroupData {
   admin_id: number;
 }
 
+export interface IThreadData {
+  thread_id: number;
+  title: string;
+  description: string;
+  created_date: Date;
+  author_id: number;
+  username: number;
+  group_id: number;
+}
+
 // Endpoints
 export interface IMovieDataEndpoint {
   data: IMovieData;
@@ -93,6 +103,12 @@ export interface IGroupsDataEndpoint {
   success: boolean;
   data: IGroupData[];
 }
+
+export interface IThreadDataEndpoint {
+  success: boolean;
+  data: IThreadData[];
+}
+
 // Enums
 export const defaultActivities: IActivityListData[] = [
   { value: "COMPLETED", label: "Completed", color: "#69e58e" },

@@ -24,9 +24,6 @@ const LandingPage: React.FC = () => {
   const [currentMovie, setCurrentMovie] = useState<IMovieData>();
   const [newsfeedEvents, setNewsfeedEvents] = useState<IEventData[]>([]);
   const [groupsJoined, setGroupsJoined] = useState<IGroupData[]>([]);
-  const [tabs, setTabs] = useState<ITabs[]>([
-    { title: "Front Page", key: "FRONTPAGE" },
-  ]);
 
   const loggedUserId = localStorage.getItem("user_id") as string;
 
@@ -111,13 +108,9 @@ const LandingPage: React.FC = () => {
             tabPosition="left"
             defaultActiveKey="1"
           >
-            {tabs.map((tab, index) => {
-              return (
-                <TabPane tab={tab.title} key={index}>
-                  {renderTabContent(tab.key)}
-                </TabPane>
-              );
-            })}
+            <TabPane tab="Front Page" key={"FRONTPAGE"}>
+              {renderTabContent("FRONTPAGE")}
+            </TabPane>
 
             {groupsJoined.map((group) => {
               return (

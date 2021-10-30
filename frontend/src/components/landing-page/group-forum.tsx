@@ -1,5 +1,8 @@
-import { Button, Card, Modal, Row } from "antd";
-import React, { useState } from "react";
+import { Button, Card, Row } from "antd";
+import React, { useEffect, useState } from "react";
+import { getThreadsInGroup } from "../../common/api";
+import { IThreadData } from "../../common/interfaces.d";
+import GroupForumThread from "./group-forum-thread";
 import NewThreadModal from "./new-thread-modal";
 
 interface IProps {
@@ -8,15 +11,28 @@ interface IProps {
 
 const GroupForum: React.FC<IProps> = (props) => {
   const { group_id } = props;
+  const loggedUserId = localStorage.getItem("user_id") as string;
 
   const [showModal, setShowModal] = useState(false);
+  const [threads, setThreads] = useState<IThreadData[]>([]);
+
+  const fetchThreads = async () => {
+    const res = await getThreadsInGroup(group_id, loggedUserId);
+    console.log(res);
+    setThreads(res.data);
+  };
+
+  useEffect(() => {
+    fetchThreads();
+  }, [group_id, loggedUserId]);
 
   return (
-    <div style={{ height: 1000 }}>
+    <div style={{ minHeight: 200 }}>
       <NewThreadModal
         showModal={showModal}
         setShowModal={setShowModal}
         group_id={group_id}
+        fetchThreads={fetchThreads}
       />
 
       <Row justify="space-between">
@@ -28,21 +44,10 @@ const GroupForum: React.FC<IProps> = (props) => {
           Start a thread
         </Button>
       </Row>
-      <Card
-        style={{
-          minHeight: 200,
-          borderColor: "#a5dff2",
-          borderStyle: "solid",
-          borderWidth: "2px",
-          borderRadius: "10px",
-        }}
-      >
-        <h2>Best Marvel movie of 2021?</h2>
-        <Row style={{ color: "gray" }} justify="space-between">
-          <p>By user1</p> <p>08/10/2021</p>
-        </Row>
-        <p>What are your best movies of 2021? Personally mine is Spider-man!</p>
-      </Card>
+
+      {threads.map((thread) => {
+        return <GroupForumThread thread={thread} />;
+      })}
     </div>
   );
 };
