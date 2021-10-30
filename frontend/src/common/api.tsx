@@ -7,6 +7,7 @@ import {
   IMoviesDataEndpoint,
   IRecommendedMoviesDataEndpoint,
   IThreadDataEndpoint,
+  IThreadRepliesDataEndpoint,
   IUserDataEndpoint,
   IUsersDataEndpoint,
 } from "./interfaces.d";
@@ -307,6 +308,30 @@ export const createThread = async (
       description: description,
       author_id: author_id,
       group_id: group_id,
+    },
+  });
+};
+
+export const createReply = async (
+  thread_id: number,
+  author_id: string,
+  description: string
+) => {
+  return post<{ success: boolean }>({
+    endpoint: `${BASE_URL}/createReply`,
+    data: {
+      thread_id: thread_id,
+      author_id: author_id,
+      description: description,
+    },
+  });
+};
+
+export const getRepliesInThread = async (thread_id: number) => {
+  return get<IThreadRepliesDataEndpoint>({
+    endpoint: `${BASE_URL}/getRepliesInThread`,
+    URL_params: {
+      thread_id: thread_id,
     },
   });
 };

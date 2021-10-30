@@ -58,8 +58,16 @@ export interface IThreadData {
   description: string;
   created_date: Date;
   author_id: number;
-  username: number;
+  username: string;
   group_id: number;
+}
+export interface IThreadReplyData {
+  reply_id: number;
+  thread_id: number;
+  created_date: Date;
+  author_id: number;
+  username: string;
+  description: string;
 }
 
 // Endpoints
@@ -107,6 +115,11 @@ export interface IGroupsDataEndpoint {
 export interface IThreadDataEndpoint {
   success: boolean;
   data: IThreadData[];
+}
+
+export interface IThreadRepliesDataEndpoint {
+  success: boolean;
+  data: IThreadReplyData[];
 }
 
 // Enums

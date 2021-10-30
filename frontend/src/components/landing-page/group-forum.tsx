@@ -18,7 +18,6 @@ const GroupForum: React.FC<IProps> = (props) => {
 
   const fetchThreads = async () => {
     const res = await getThreadsInGroup(group_id, loggedUserId);
-    console.log(res);
     setThreads(res.data);
   };
 
@@ -27,7 +26,7 @@ const GroupForum: React.FC<IProps> = (props) => {
   }, [group_id, loggedUserId]);
 
   return (
-    <div style={{ minHeight: 200 }}>
+    <div style={{ minHeight: 1000 }}>
       <NewThreadModal
         showModal={showModal}
         setShowModal={setShowModal}
