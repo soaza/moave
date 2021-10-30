@@ -38,6 +38,20 @@ export interface IEventData {
   username: string;
 }
 
+export interface IActivityListData {
+  value: string;
+  label: string;
+  color: string;
+}
+
+export interface IGroupData {
+  group_id: number;
+  user_id: number;
+  group_name: string;
+  group_description: string;
+  admin_id: number;
+}
+
 // Endpoints
 export interface IMovieDataEndpoint {
   data: IMovieData;
@@ -75,12 +89,10 @@ export interface IEventsDataEndpoint {
   data: IEventData[];
 }
 
-export interface IActivityListData {
-  value: string;
-  label: string;
-  color: string;
+export interface IGroupsDataEndpoint {
+  success: boolean;
+  data: IGroupData[];
 }
-
 // Enums
 export const defaultActivities: IActivityListData[] = [
   { value: "COMPLETED", label: "Completed", color: "#69e58e" },

@@ -1,28 +1,37 @@
 import * as React from "react";
 import { Carousel, Col, Row, Tabs } from "antd";
-import { getFriendsEvents, getLatestMovies } from "../common/api";
-import { IEventData, IMovieData } from "../common/interfaces.d";
+import {
+  getFriendsEvents,
+  getGroupsUserJoined,
+  getLatestMovies,
+} from "../common/api";
+import { IEventData, IGroupData, IMovieData } from "../common/interfaces.d";
 import { Link } from "react-router-dom";
 import ProfileSingleActivity from "../components/profile/profile-single-activity";
+import GroupForum from "../components/landing-page/group-forum";
 
 const { useEffect, useState } = React;
 
 const { TabPane } = Tabs;
 
-const TABS = [
-  { title: "Front Page", key: "FRONTPAGE" },
-  { title: "Completed", key: "COMPLETED" },
-  { title: "Plan to Watch", key: "WATCHLIST" },
-];
+interface ITabs {
+  title: string;
+  key: string;
+}
 
 const LandingPage: React.FC = () => {
   const [latestMovies, setLatestMovies] = useState<IMovieData[]>();
   const [currentMovie, setCurrentMovie] = useState<IMovieData>();
   const [newsfeedEvents, setNewsfeedEvents] = useState<IEventData[]>([]);
+  const [groupsJoined, setGroupsJoined] = useState<IGroupData[]>([]);
+  const [tabs, setTabs] = useState<ITabs[]>([
+    { title: "Front Page", key: "FRONTPAGE" },
+  ]);
 
   const loggedUserId = localStorage.getItem("user_id") as string;
 
   useEffect(() => {
+    // Fetch Movies
     const fetchLatestMovies = async () => {
       const res = await getLatestMovies();
       setLatestMovies(
@@ -31,15 +40,30 @@ const LandingPage: React.FC = () => {
     };
     fetchLatestMovies();
 
+    // Fetch news feed
     const fetchFriendsActivity = async () => {
       const activityRes = await getFriendsEvents(loggedUserId);
-
-      console.log(activityRes);
       setNewsfeedEvents(activityRes.data);
     };
-
     fetchFriendsActivity();
+
+    // Fetch Groups
+    const fetchGroups = async () => {
+      const groupRes = await getGroupsUserJoined(loggedUserId);
+      setGroupsJoined(groupRes.data);
+    };
+    fetchGroups();
   }, []);
+
+  const renderTabContent = (key: any) => {
+    if (key === "FRONTPAGE") {
+      return newsfeedEvents.map((event, index) => {
+        return <ProfileSingleActivity key={index} event={event} />;
+      });
+    } else {
+      return <GroupForum group_id={key} />;
+    }
+  };
 
   return (
     <>
@@ -87,12 +111,18 @@ const LandingPage: React.FC = () => {
             tabPosition="left"
             defaultActiveKey="1"
           >
-            {TABS.map((tab, index) => {
+            {tabs.map((tab, index) => {
               return (
                 <TabPane tab={tab.title} key={index}>
-                  {newsfeedEvents.map((event, index) => {
-                    return <ProfileSingleActivity key={index} event={event} />;
-                  })}
+                  {renderTabContent(tab.key)}
+                </TabPane>
+              );
+            })}
+
+            {groupsJoined.map((group) => {
+              return (
+                <TabPane tab={group.group_name} key={group.group_id}>
+                  {renderTabContent(group.group_id)}
                 </TabPane>
               );
             })}

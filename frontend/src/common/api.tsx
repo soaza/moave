@@ -1,6 +1,7 @@
 import {
   ICheckFollowingEndpoint,
   IEventsDataEndpoint,
+  IGroupsDataEndpoint,
   IMovieActivityDataEndpoint,
   IMovieDataEndpoint,
   IMoviesDataEndpoint,
@@ -274,5 +275,30 @@ export const getFriendsEvents = async (user_id: string) => {
   return get<IEventsDataEndpoint>({
     endpoint: `${BASE_URL}/getFriendEvents`,
     URL_params: { user_id: user_id },
+  });
+};
+
+// Groups
+export const getGroupsUserJoined = async (user_id: string) => {
+  return get<IGroupsDataEndpoint>({
+    endpoint: `${BASE_URL}/getGroupsUserJoined`,
+    URL_params: { user_id: user_id },
+  });
+};
+
+export const createThread = async (
+  title: string,
+  description: string,
+  author_id: string,
+  group_id: string
+) => {
+  return post<{ success: boolean }>({
+    endpoint: `${BASE_URL}/createThread`,
+    data: {
+      title: title,
+      description: description,
+      author_id: author_id,
+      group_id: group_id,
+    },
   });
 };

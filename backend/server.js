@@ -125,6 +125,10 @@ app.delete("/leaveGroup", (req, res) => {
   groupController.leaveGroup(req, res, pool);
 });
 
+app.get("/getGroupsUserJoined/:user_id", (req, res) => {
+  groupController.getGroupsUserJoined(req, res, pool);
+});
+
 // Updating Activities
 app.post("/addMovieToWatchlist", (req, res) => {
   activityController.addMovieToWatchlist(req, res, pool);
