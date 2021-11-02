@@ -27,7 +27,7 @@ const GroupForumReply: React.FC<IProps> = (props) => {
       >
         <Row style={{ color: "gray" }} justify="space-between">
           {/* TODO :Change to username */}
-          <p>By {reply.author_id}</p>{" "}
+          <p>By {reply.username}</p>{" "}
           <p>{moment(reply.created_date).format("YYYY-MM-DD HH:mm A")}</p>
         </Row>
         <p>{reply.description}</p>

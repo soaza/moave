@@ -42,7 +42,7 @@ const GroupForumThread: React.FC<IProps> = (props) => {
         <h2>{thread.title}</h2>
         <Row style={{ color: "gray" }} justify="space-between">
           {/* TODO :Change to username */}
-          <p>By {thread.author_id}</p>{" "}
+          <p>By {thread.username}</p>{" "}
           <p>{moment(thread.created_date).format("YYYY-MM-DD HH:mm A")}</p>
         </Row>
         <p>{thread.description}</p>
