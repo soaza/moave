@@ -42,6 +42,7 @@ const GroupCreateJoinTab: React.FC<IProps> = (props) => {
     } else {
       message.error("Server Error, please try again");
     }
+    setKeyword("");
   };
 
   return (
