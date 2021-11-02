@@ -10,6 +10,7 @@ const createGroup = async (request, response, pool) => {
       console.log(error);
       response.status(500).json({
         Error: "admin_id does not exist",
+        success: false,
       });
     } else {
       const query = `INSERT INTO Groups VALUES (DEFAULT, $1,$2,$3)`;
@@ -21,10 +22,12 @@ const createGroup = async (request, response, pool) => {
             console.log(error);
             response.status(500).json({
               Error: "Group with the same name already exists",
+              success: false,
             });
           } else {
             response.status(200).json({
               Success: `Group ${group_name} successfully created!`,
+              success: true,
             });
           }
         }
@@ -77,7 +80,7 @@ const joinGroup = async (request, response, pool) => {
       });
     } else {
       response.status(200).json({
-        Success: `Successfully joined group ${group_id}`,
+        success: true,
       });
     }
   });
@@ -212,12 +215,10 @@ const getGroupsUserJoined = async (request, response, pool) => {
 const getGroupsByKeyword = async (request, response, pool) => {
   const { keyword } = request.params;
 
-  const query = `SELECT group_name FROM groups WHERE LOWER(group_name) LIKE '${keyword}%'`;
-
-  console.log(query);
+  const query = `SELECT * FROM groups WHERE LOWER(group_name) LIKE '${keyword}%'`;
 
   pool.query(query, async (error, results) => {
-    if (error || !results.rows[0]) {
+    if (error) {
       console.log(error);
       response.status(500).json({
         success: false,

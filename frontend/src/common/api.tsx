@@ -288,6 +288,37 @@ export const getGroupsUserJoined = async (user_id: string) => {
   });
 };
 
+export const getGroupsByKeyword = async (keyword: string) => {
+  return get<IGroupsDataEndpoint>({
+    endpoint: `${BASE_URL}/getGroupsByKeyword`,
+    URL_params: { keyword: keyword },
+  });
+};
+
+export const joinGroup = async (user_id: string, group_id: string) => {
+  return post<{ success: boolean }>({
+    endpoint: `${BASE_URL}/joinGroup`,
+    data: { user_id: user_id, group_id: group_id },
+  });
+};
+
+export const createGroup = async (
+  admin_id: string,
+  group_name: string,
+  group_description: string
+) => {
+  return post<{ success: boolean }>({
+    endpoint: `${BASE_URL}/createGroup`,
+    data: {
+      admin_id: admin_id,
+      group_name: group_name,
+      group_description: group_description,
+    },
+  });
+};
+
+// Threads
+
 export const getThreadsInGroup = async (group_id: string, user_id: string) => {
   return get<IThreadDataEndpoint>({
     endpoint: `${BASE_URL}/getThreadsInGroup`,

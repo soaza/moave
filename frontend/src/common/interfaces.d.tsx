@@ -45,7 +45,7 @@ export interface IActivityListData {
 }
 
 export interface IGroupData {
-  group_id: number;
+  group_id: string;
   user_id: number;
   group_name: string;
   group_description: string;

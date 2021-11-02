@@ -9,6 +9,7 @@ import { IEventData, IGroupData, IMovieData } from "../common/interfaces.d";
 import { Link } from "react-router-dom";
 import ProfileSingleActivity from "../components/profile/profile-single-activity";
 import GroupForum from "../components/landing-page/group-forum";
+import GroupCreateJoinTab from "../components/landing-page/group-create-join-tab";
 
 const { useEffect, useState } = React;
 
@@ -27,29 +28,30 @@ const LandingPage: React.FC = () => {
 
   const loggedUserId = localStorage.getItem("user_id") as string;
 
+  // Fetch Groups
+  const fetchGroups = async () => {
+    const groupRes = await getGroupsUserJoined(loggedUserId);
+    setGroupsJoined(groupRes.data);
+  };
+
+  // Fetch Movies
+  const fetchLatestMovies = async () => {
+    const res = await getLatestMovies();
+    setLatestMovies(
+      res.data.results.filter((movie) => movie.backdrop_path !== null)
+    );
+  };
+
+  // Fetch news feed
+  const fetchFriendsActivity = async () => {
+    const activityRes = await getFriendsEvents(loggedUserId);
+    setNewsfeedEvents(activityRes.data);
+  };
+
   useEffect(() => {
-    // Fetch Movies
-    const fetchLatestMovies = async () => {
-      const res = await getLatestMovies();
-      setLatestMovies(
-        res.data.results.filter((movie) => movie.backdrop_path !== null)
-      );
-    };
-    fetchLatestMovies();
-
-    // Fetch news feed
-    const fetchFriendsActivity = async () => {
-      const activityRes = await getFriendsEvents(loggedUserId);
-      setNewsfeedEvents(activityRes.data);
-    };
-    fetchFriendsActivity();
-
-    // Fetch Groups
-    const fetchGroups = async () => {
-      const groupRes = await getGroupsUserJoined(loggedUserId);
-      setGroupsJoined(groupRes.data);
-    };
     fetchGroups();
+    fetchLatestMovies();
+    fetchFriendsActivity();
   }, []);
 
   const renderTabContent = (key: any) => {
@@ -57,9 +59,11 @@ const LandingPage: React.FC = () => {
       return newsfeedEvents.map((event, index) => {
         return <ProfileSingleActivity key={index} event={event} />;
       });
-    } else {
-      return <GroupForum group_id={key} />;
     }
+    if (key === "ADDJOIN") {
+      return <GroupCreateJoinTab fetchGroups={fetchGroups} />;
+    }
+    return <GroupForum group_id={key} />;
   };
 
   return (
@@ -119,6 +123,12 @@ const LandingPage: React.FC = () => {
                 </TabPane>
               );
             })}
+
+            <TabPane tab="Add/Join Groups" key={"ADDJOIN"}>
+              <div style={{ minHeight: 500 }}>
+                {renderTabContent("ADDJOIN")}
+              </div>
+            </TabPane>
           </Tabs>
         </Col>
       </Row>

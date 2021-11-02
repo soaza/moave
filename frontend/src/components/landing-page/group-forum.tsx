@@ -35,9 +35,7 @@ const GroupForum: React.FC<IProps> = (props) => {
       />
 
       <Row justify="space-between">
-        <h1>
-          <span style={{ color: "gray" }}> MARVEL</span> Posts
-        </h1>
+        <h1>Posts</h1>
 
         <Button onClick={() => setShowModal(true)} type="primary">
           Start a thread
@@ -47,6 +45,8 @@ const GroupForum: React.FC<IProps> = (props) => {
       {threads.map((thread) => {
         return <GroupForumThread thread={thread} />;
       })}
+
+      {threads.length == 0 && <div> No threads found.</div>}
     </div>
   );
 };
