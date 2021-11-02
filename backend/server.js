@@ -129,6 +129,10 @@ app.get("/getGroupsUserJoined/:user_id", (req, res) => {
   groupController.getGroupsUserJoined(req, res, pool);
 });
 
+app.get("/getGroupsByKeyword/:keyword", (req, res) => {
+  groupController.getGroupsByKeyword(req, res, pool);
+});
+
 // Updating Activities
 app.post("/addMovieToWatchlist", (req, res) => {
   activityController.addMovieToWatchlist(req, res, pool);

@@ -209,6 +209,28 @@ const getGroupsUserJoined = async (request, response, pool) => {
   });
 };
 
+const getGroupsByKeyword = async (request, response, pool) => {
+  const { keyword } = request.params;
+
+  const query = `SELECT group_name FROM groups WHERE LOWER(group_name) LIKE '${keyword}%'`;
+
+  console.log(query);
+
+  pool.query(query, async (error, results) => {
+    if (error || !results.rows[0]) {
+      console.log(error);
+      response.status(500).json({
+        success: false,
+      });
+    } else {
+      response.status(200).json({
+        data: results.rows,
+        success: true,
+      });
+    }
+  });
+};
+
 module.exports = {
   createGroup,
   deleteGroup,
@@ -217,4 +239,5 @@ module.exports = {
   getGroupById,
   editGroupDescription,
   getGroupsUserJoined,
+  getGroupsByKeyword,
 };
