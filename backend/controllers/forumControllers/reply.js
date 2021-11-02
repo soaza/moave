@@ -96,7 +96,7 @@ const deleteReply = async (request, response, pool) => {
 const getRepliesInThread = async (request, response, pool) => {
   const { thread_id } = request.params;
   // Check if the user is in the group
-  const query = `SELECT * FROM Replies WHERE thread_id = $1`;
+  const query = `SELECT reply_id, thread_id, created_date, author_id, description, username FROM Replies JOIN Users ON Replies.author_id = Users.user_id WHERE thread_id = $1`;
   pool.query(query, [thread_id], (error, results) => {
     if (error) {
       console.log(error);
