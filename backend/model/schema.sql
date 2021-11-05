@@ -1,8 +1,8 @@
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    username TEXT UNIQUE NOT NULL
+    username TEXT UNIQUE NOT NULL,
+    token TEXT
 );
 
 CREATE TABLE Follows (
@@ -121,9 +121,9 @@ BEFORE DELETE ON Groups
 FOR EACH ROW EXECUTE PROCEDURE update_userGroups_on_delete_func();
 
 -- Sample data
-INSERT INTO Users values (DEFAULT,'user1@gmail.com', '$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC', 'user1'); /*pw = user1 */
-INSERT INTO Users values (DEFAULT,'user2@gmail.com', '$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy', 'user2'); /*pw = user2 */
-INSERT INTO Users values (DEFAULT,'user3@gmail.com', '$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i', 'user3'); /*pw = user3 */
+INSERT INTO Users values (DEFAULT, '$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC', 'user1'); /*pw = user1 */
+INSERT INTO Users values (DEFAULT, '$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy', 'user2'); /*pw = user2 */
+INSERT INTO Users values (DEFAULT, '$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i', 'user3'); /*pw = user3 */
 
 INSERT INTO Follows values (1, 2);
 INSERT INTO Follows values (1, 3);
