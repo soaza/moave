@@ -19,6 +19,9 @@ const database = require("./model/pool");
 
 let pool = database.pool;
 
+// for jwt auth
+const auth = require("./middleware/auth");
+
 // Controllers
 const accountController = require("./controllers/user/account");
 const movieController = require("./controllers/movies");
@@ -34,6 +37,11 @@ app.listen(port, () => {
   console.log(`app is running on port ${port} `);
 });
 
+// JWT Welcome
+app.put("/welcome", auth, (req, res) => {
+  res.status(200).send("Welcome 🙌 ");
+});
+
 // Account Management
 app.post("/register", (req, res) => {
   accountController.accountSignUp(req, res, pool);
@@ -41,16 +49,16 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   accountController.accountLogin(req, res, pool);
 });
-app.put("/changePassword", (req, res) => {
+app.put("/changePassword", auth, (req, res) => {
   accountController.changePassword(req, res, pool);
 });
 
 // Socials
-app.post("/follow", (req, res) => {
+app.post("/follow", auth, (req, res) => {
   accountController.followAccount(req, res, pool);
 });
 
-app.post("/unfollow", (req, res) => {
+app.post("/unfollow", auth, (req, res) => {
   accountController.unfollowAccount(req, res, pool);
 });
 
@@ -62,7 +70,7 @@ app.get("/following/:user_id", (req, res) => {
   accountController.getFollowing(req, res, pool);
 });
 
-app.get("/checkFollowing", (req, res) => {
+app.get("/checkFollowing", auth, (req, res) => {
   accountController.checkFollowing(req, res, pool);
 });
 
@@ -75,9 +83,6 @@ app.get("/searchUserByUsername/:username", (req, res) => {
   accountController.getUserInfoByUsername(req, res, pool);
 });
 
-app.get("/searchUserByEmail/:email", (req, res) => {
-  accountController.getUserInfoByEmail(req, res, pool);
-});
 
 app.get("/getUsersByUsername", (req, res) => {
   accountController.matchUserInfoByUsername(req, res, pool);
@@ -101,19 +106,19 @@ app.get("/get_recommended_movies", (req, res) => {
 });
 
 // Group Management
-app.post("/createGroup", (req, res) => {
+app.post("/createGroup", auth, (req, res) => {
   groupController.createGroup(req, res, pool);
 });
 
-app.delete("/deleteGroup", (req, res) => {
+app.delete("/deleteGroup", auth, (req, res) => {
   groupController.deleteGroup(req, res, pool);
 });
 
-app.post("/joinGroup", (req, res) => {
+app.post("/joinGroup", auth, (req, res) => {
   groupController.joinGroup(req, res, pool);
 });
 
-app.put("/editGroupDescription", (req, res) => {
+app.put("/editGroupDescription", auth, (req, res) => {
   groupController.editGroupDescription(req, res, pool);
 });
 
@@ -121,7 +126,7 @@ app.get("/searchGroupById/:group_id", (req, res) => {
   groupController.getGroupById(req, res, pool);
 });
 
-app.delete("/leaveGroup", (req, res) => {
+app.delete("/leaveGroup", auth, (req, res) => {
   groupController.leaveGroup(req, res, pool);
 });
 
@@ -134,31 +139,31 @@ app.get("/getGroupsByKeyword/:keyword", (req, res) => {
 });
 
 // Updating Activities
-app.post("/addMovieToWatchlist", (req, res) => {
+app.post("/addMovieToWatchlist", auth, (req, res) => {
   activityController.addMovieToWatchlist(req, res, pool);
 });
 
-app.post("/addMovieToCompleted", (req, res) => {
+app.post("/addMovieToCompleted", auth,(req, res) => {
   activityController.addMovieToCompleted(req, res, pool);
 });
 
-app.post("/addMovieToCurrentlyWatching", (req, res) => {
+app.post("/addMovieToCurrentlyWatching", auth, (req, res) => {
   activityController.addMovieToCurrentlyWatching(req, res, pool);
 });
 
-app.put("/updateMovieToCompleted", (req, res) => {
+app.put("/updateMovieToCompleted", auth, (req, res) => {
   activityController.updateMovieToCompleted(req, res, pool);
 });
 
-app.put("/updateMovieToWatchlist", (req, res) => {
+app.put("/updateMovieToWatchlist", auth, (req, res) => {
   activityController.updateMovieToWatchlist(req, res, pool);
 });
 
-app.put("/updateMovieToCurrentlyWatching", (req, res) => {
+app.put("/updateMovieToCurrentlyWatching", auth, (req, res) => {
   activityController.updateMovieToCurrentlyWatching(req, res, pool);
 });
 
-app.delete("/dropMovie", (req, res) => {
+app.delete("/dropMovie", auth, (req, res) => {
   activityController.dropMovie(req, res, pool);
 });
 
@@ -194,15 +199,15 @@ app.get("/getFriendEvents/:user_id", (req, res) => {
 
 // User List
 
-app.post("/addUserList", (req, res) => {
+app.post("/addUserList", auth, (req, res) => {
   userlistController.addUserList(req, res, pool);
 });
 
-app.delete("/deleteUserList/:list_id", (req, res) => {
+app.delete("/deleteUserList/:list_id", auth, (req, res) => {
   userlistController.deleteUserList(req, res, pool);
 });
 
-app.post("/addMovieToUserList", (req, res) => {
+app.post("/addMovieToUserList", auth, (req, res) => {
   userlistController.addMovieToUserList(req, res, pool);
 });
 
@@ -210,7 +215,7 @@ app.get("/getMoviesFromUserList/:list_id", (req, res) => {
   userlistController.getMoviesFromUserList(req, res, pool);
 });
 
-app.delete("/deleteMovieFromUserList", (req, res) => {
+app.delete("/deleteMovieFromUserList", auth, (req, res) => {
   userlistController.deleteMovieFromUserList(req, res, pool);
 });
 
@@ -219,11 +224,11 @@ app.get("/getUserLists/:user_id", (req, res) => {
 });
 
 // Forum apis
-app.post("/createThread", (req, res) => {
+app.post("/createThread", auth, (req, res) => {
   threadController.createThread(req, res, pool);
 });
 
-app.delete("/deleteThread", (req, res) => {
+app.delete("/deleteThread", auth, (req, res) => {
   threadController.deleteThread(req, res, pool);
 });
 
@@ -233,11 +238,11 @@ app.get("/getThreadsInGroup/:group_id/:user_id", (req, res) => {
   threadController.getThreadsInGroup(req, res, pool);
 });
 
-app.post("/createReply", (req, res) => {
+app.post("/createReply", auth, (req, res) => {
   replyController.createReply(req, res, pool);
 });
 
-app.delete("/deleteReply", (req, res) => {
+app.delete("/deleteReply", auth, (req, res) => {
   replyController.deleteReply(req, res, pool);
 });
 
