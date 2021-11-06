@@ -120,18 +120,18 @@ CREATE TRIGGER userGroups_delete_trigger
 BEFORE DELETE ON Groups
 FOR EACH ROW EXECUTE PROCEDURE update_userGroups_on_delete_func();
 
--- Sample data
-INSERT INTO Users values (DEFAULT, '$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC', 'user1'); /*pw = user1 */
-INSERT INTO Users values (DEFAULT, '$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy', 'user2'); /*pw = user2 */
-INSERT INTO Users values (DEFAULT, '$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i', 'user3'); /*pw = user3 */
+-- -- Sample data
+-- INSERT INTO Users values (DEFAULT, '$2b$10$XShItmRbeoeCEtK0chNZLuRam3y.k6BRz8hKdKMfdLSWu2NMULZvC', 'user1'); /*pw = user1 */
+-- INSERT INTO Users values (DEFAULT, '$2b$10$99g1brQVF8gXamaFtLe5MeOMC.DWefDfRaDjbXiqdU8mEkhnAAuYy', 'user2'); /*pw = user2 */
+-- INSERT INTO Users values (DEFAULT, '$2b$10$0.FXRIlQPtpnd/FpTqTXIOG7xcmuF7IDA189CJ1as5lNaw7aasD9i', 'user3'); /*pw = user3 */
 
-INSERT INTO Follows values (1, 2);
-INSERT INTO Follows values (1, 3);
-INSERT INTO Follows values (2, 3);
+-- INSERT INTO Follows values (1, 2);
+-- INSERT INTO Follows values (1, 3);
+-- INSERT INTO Follows values (2, 3);
 
-INSERT INTO Groups values (DEFAULT, 'MARVEL','A group for Marvel fans', 1);
-INSERT INTO UserGroups values (2, 1);
+-- INSERT INTO Groups values (DEFAULT, 'MARVEL','A group for Marvel fans', 1);
+-- INSERT INTO UserGroups values (2, 1);
 
-INSERT INTO ActivityList values (1, 580489, 'COMPLETED');
-INSERT INTO ActivityList values (1, 610253, 'WATCHLIST');
-INSERT INTO ActivityList values (1, 335983, 'CURRENT');
+-- INSERT INTO ActivityList values (1, 580489, 'COMPLETED');
+-- INSERT INTO ActivityList values (1, 610253, 'WATCHLIST');
+-- INSERT INTO ActivityList values (1, 335983, 'CURRENT');

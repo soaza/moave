@@ -3,12 +3,10 @@ const e = require("express");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
 
-
 const accountSignUp = async (request, response, pool) => {
   const body = request.body;
   const username = body.username;
   const password = body.password;
-
 
   // generate salt to hash password
   const salt = await bcrypt.genSalt(10);
@@ -16,14 +14,9 @@ const accountSignUp = async (request, response, pool) => {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   // Create token
-  const token = jwt.sign(
-    { username: username},
-    process.env.TOKEN_KEY,
-    {
-      expiresIn: "2h",
-    }
-  );
-
+  const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
+    expiresIn: "2h",
+  });
 
   const query = `INSERT INTO Users VALUES (DEFAULT,$1,$2,$3)`;
 
@@ -34,8 +27,20 @@ const accountSignUp = async (request, response, pool) => {
         success: false,
       });
     } else {
-      response.status(200).json({
-        success: true,
+      const queryUserId = `SELECT user_id FROM Users WHERE username = $1`;
+
+      pool.query(queryUserId, [username], (error, results) => {
+        if (error) {
+          console.log(error);
+          response.status(500).json({
+            success: false,
+          });
+        } else {
+          response.status(200).json({
+            success: true,
+            user_id: results.rows[0].user_id,
+          });
+        }
       });
     }
   });
@@ -62,7 +67,7 @@ const accountLogin = async (request, response, pool) => {
       if (validPassword) {
         // Create token
         const token = await jwt.sign(
-          { username: username},
+          { username: username },
           process.env.TOKEN_KEY,
           {
             expiresIn: "2h",
@@ -80,9 +85,9 @@ const accountLogin = async (request, response, pool) => {
         response.status(200).json({
           user_id: results.rows[0].user_id,
           username: results.rows[0].username,
-          token: results.rows[0].token
+          token: results.rows[0].token,
+          success: true,
         });
-        
       } else {
         response.status(500).json({
           success: false,
@@ -149,7 +154,7 @@ const getUserInfoById = async (request, response, pool) => {
       response.status(200).json({
         data: {
           user_id: results.rows[0].user_id,
-          username: results.rows[0].username
+          username: results.rows[0].username,
         },
       });
     }
@@ -170,12 +175,11 @@ const getUserInfoByUsername = async (request, response, pool) => {
     } else {
       response.status(200).json({
         user_id: results.rows[0].user_id,
-        username: results.rows[0].username
+        username: results.rows[0].username,
       });
     }
   });
 };
-
 
 const matchUserInfoByUsername = async (request, response, pool) => {
   const params = request.query;
