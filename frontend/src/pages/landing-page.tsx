@@ -49,10 +49,12 @@ const LandingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchGroups();
-    fetchLatestMovies();
-    fetchFriendsActivity();
-  }, []);
+    if (loggedUserId) {
+      fetchGroups();
+      fetchLatestMovies();
+      fetchFriendsActivity();
+    }
+  }, [loggedUserId]);
 
   const renderTabContent = (key: any) => {
     if (key === "FRONTPAGE") {

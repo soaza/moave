@@ -27,7 +27,7 @@ const accountSignUp = async (request, response, pool) => {
         success: false,
       });
     } else {
-      const queryUserId = `SELECT user_id FROM Users WHERE username = $1`;
+      const queryUserId = `SELECT user_id,token FROM Users WHERE username = $1`;
 
       pool.query(queryUserId, [username], (error, results) => {
         if (error) {
@@ -39,6 +39,7 @@ const accountSignUp = async (request, response, pool) => {
           response.status(200).json({
             success: true,
             user_id: results.rows[0].user_id,
+            token: results.rows[0].token,
           });
         }
       });

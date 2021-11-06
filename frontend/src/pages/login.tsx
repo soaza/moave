@@ -16,12 +16,14 @@ const LoginPage: React.FC<IProps> = (props) => {
 
     try {
       const response = await loginUser(username, password);
+      console.log(response);
       if (response.success) {
         message.success("Successfully logged in!");
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("username", username);
         localStorage.setItem("user_id", response.user_id);
+        localStorage.setItem("token", response.token);
 
         history.push("/");
       }

@@ -1,3 +1,4 @@
+import { message } from "antd";
 import {
   ICheckFollowingEndpoint,
   IEventsDataEndpoint,
@@ -40,8 +41,11 @@ async function makeRequest(request: IRequest, method: string) {
     });
   }
 
+  const authToken = localStorage.getItem("token");
+
   const headers = {
     "Content-Type": "application/json",
+    "x-access-token": authToken,
     ...request.headers,
   } as unknown as Headers;
 
@@ -51,6 +55,10 @@ async function makeRequest(request: IRequest, method: string) {
       headers: headers,
       body: request.data ? JSON.stringify(request.data) : null,
     }).then((res) => {
+      console.log(res.status, res.ok);
+      if (res.status === 403) {
+        message.error("Not authorised");
+      }
       if (res.ok) return res.json();
       else throw Error;
     });
@@ -77,7 +85,7 @@ const BASE_URL = "http://localhost:3001";
 
 // Account
 export const registerUser = async (username: string, password: string) => {
-  return post<{ user_id: string; success: boolean }>({
+  return post<{ user_id: string; success: boolean; token: string }>({
     endpoint: `${BASE_URL}/register`,
     data: {
       username: username,
@@ -87,7 +95,7 @@ export const registerUser = async (username: string, password: string) => {
 };
 
 export const loginUser = async (username: string, password: string) => {
-  return post<{ user_id: string; success: boolean }>({
+  return post<{ user_id: string; success: boolean; token: string }>({
     endpoint: `${BASE_URL}/login`,
     data: {
       username: username,
