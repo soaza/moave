@@ -2,6 +2,7 @@ import {
   PoweroffOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  KeyOutlined
 } from "@ant-design/icons";
 import { Button, Col, message, Row } from "antd";
 import * as React from "react";
@@ -78,7 +79,7 @@ const Navigation: React.FC = () => {
         <Col style={{ color: "white", fontSize: 20 }} span={24} lg={7}>
           <Row style={{ marginRight: 20 }} justify="end">
             <Link style={{ color: "white" }} to="changePassword">
-              <UserOutlined style={{ color: "white"}} /> Change Password
+              <KeyOutlined style={{ color: "white"}} /> Change Password
             </Link>
 
             <Link style={{ color: "white" }} to="my_profile">
