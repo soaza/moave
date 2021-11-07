@@ -75,11 +75,16 @@ const Navigation: React.FC = () => {
           </Button>
         </Col>
 
-        <Col style={{ color: "white", fontSize: 20 }} span={24} lg={6}>
+        <Col style={{ color: "white", fontSize: 20 }} span={24} lg={7}>
           <Row style={{ marginRight: 20 }} justify="end">
-            <Link style={{ color: "white" }} to="my_profile">
-              <UserOutlined style={{ color: "white", fontSize: 20 }} /> Profile
+            <Link style={{ color: "white" }} to="change_password">
+              <UserOutlined style={{ color: "white"}} /> Change Password
             </Link>
+
+            <Link style={{ color: "white" }} to="my_profile">
+              <UserOutlined style={{ marginLeft: 20, color: "white"}} /> Profile
+            </Link>
+
             <div
               onClick={() => handleSignOut()}
               style={{ marginLeft: 20, cursor: "pointer" }}

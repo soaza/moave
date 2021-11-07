@@ -29,7 +29,7 @@ const userlistController = require("./controllers/activityControllers/userlist")
 const threadController = require("./controllers/forumControllers/thread");
 const replyController = require("./controllers/forumControllers/reply");
 
-const port = 3001;
+const port = 3002;
 app.listen(port, () => {
   console.log(`app is running on port ${port} `);
 });
