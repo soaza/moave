@@ -66,7 +66,7 @@ const getThreadsInGroup = async (request, response, pool) => {
         Error: "Either you are not in the group, or there isnt such a group!",
       });
     } else {
-      const query = `SELECT * FROM Threads WHERE group_id = $1`;
+      const query = `SELECT thread_id, title, created_date, author_id, group_id, description, username FROM Threads JOIN Users On Threads.author_id = Users.user_id WHERE group_id = $1`;
       pool.query(query, [group_id], (error, results) => {
         if (error) {
           console.log(error);
