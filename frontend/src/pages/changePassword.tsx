@@ -15,21 +15,20 @@ const ChangePasswordPage: React.FC<IProps> = (props) => {
     const { oldPassword, newPassword, confirmNewPassword } = form;
 
     if (newPassword !== confirmNewPassword) {
-      message.error("New password does not match!")
-    } else {
+      message.error("New password does not match!");
       return;
-    }
-
-    try {
-      const response = await changePassword(username, oldPassword, newPassword);
-      if (response.success) {
-        message.success("Successfully changed password!");
-
-        history.push("/");
+    } else {
+      try {
+        const response = await changePassword(username, oldPassword, newPassword);
+        if (response.success) {
+          message.success("Successfully changed password!");
+          history.push("/");
+        }
+      } catch (error) {
+        message.error("Current password does not match");
       }
-    } catch (error) {
-      message.error("Current password does not match");
     }
+
   };
 
   return (

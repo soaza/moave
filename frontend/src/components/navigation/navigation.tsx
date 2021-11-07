@@ -77,7 +77,7 @@ const Navigation: React.FC = () => {
 
         <Col style={{ color: "white", fontSize: 20 }} span={24} lg={7}>
           <Row style={{ marginRight: 20 }} justify="end">
-            <Link style={{ color: "white" }} to="change_password">
+            <Link style={{ color: "white" }} to="changePassword">
               <UserOutlined style={{ color: "white"}} /> Change Password
             </Link>
 

@@ -105,8 +105,8 @@ export const loginUser = async (username: string, password: string) => {
 };
 
 export const changePassword = async (username: string, oldPassword: string, newPassword: string) => {
-  return post<{ user_id: string; success: boolean }>({
-    endpoint: `${BASE_URL}/changepassword`,
+  return patch<{ user_id: string; success: boolean }>({
+    endpoint: `${BASE_URL}/changePassword`,
     data: {
       username: username,
       oldPassword: oldPassword,
