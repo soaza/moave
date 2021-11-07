@@ -1,7 +1,6 @@
-import { RightOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Row, Col, Divider, message } from "antd";
 import * as React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { changePassword } from "../common/api";
 
 interface IProps {
@@ -15,7 +14,7 @@ const ChangePasswordPage: React.FC<IProps> = (props) => {
   const onFinish = async (form: { oldPassword: string, newPassword: string, confirmNewPassword: string }) => {
     const { oldPassword, newPassword, confirmNewPassword } = form;
 
-    if (newPassword != confirmNewPassword) {
+    if (newPassword !== confirmNewPassword) {
       message.error("New password does not match!")
     } else {
       return;
