@@ -2,31 +2,34 @@ import { RightOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Row, Col, Divider, message } from "antd";
 import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
-import { changePassword, registerUser } from "../common/api";
+import { changePassword } from "../common/api";
 
 interface IProps {
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
+
 const ChangePasswordPage: React.FC<IProps> = (props) => {
-  const { setIsAuthenticated } = props;
   const history = useHistory();
 
-  const onFinish = async (form: { username: string, oldPassword: string, newPassword: string }) => {
-    const { username, oldPassword, newPassword } = form;
+  const username = localStorage.getItem("username") as string;
+
+  const onFinish = async (form: { oldPassword: string, newPassword: string, confirmNewPassword: string }) => {
+    const { oldPassword, newPassword, confirmNewPassword } = form;
+
+    if (newPassword != confirmNewPassword) {
+      message.error("New password does not match!")
+    } else {
+      return;
+    }
 
     try {
       const response = await changePassword(username, oldPassword, newPassword);
       if (response.success) {
-        message.success("Successfully registered!");
-        setIsAuthenticated(true);
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("username", username);
-        localStorage.setItem("user_id", response.user_id);
+        message.success("Successfully changed password!");
 
         history.push("/");
       }
     } catch (error) {
-      message.error("Username already exists");
+      message.error("Current password does not match");
     }
   };
 
@@ -46,7 +49,7 @@ const ChangePasswordPage: React.FC<IProps> = (props) => {
           >
             <Form.Item
               label="Current Password"
-              name="currentpassword"
+              name="oldPassword"
               rules={[
                 { required: true, message: "Please input your current password!" },
               ]}
@@ -56,7 +59,7 @@ const ChangePasswordPage: React.FC<IProps> = (props) => {
 
             <Form.Item
               label="New Password"
-              name="newpassword"
+              name="newPassword"
               rules={[
                 { required: true, message: "Please input your new password!" },
               ]}
@@ -66,19 +69,13 @@ const ChangePasswordPage: React.FC<IProps> = (props) => {
 
             <Form.Item
               label="Confirm New Password"
-              name="confirmnewpassword"
+              name="confirmNewPassword"
               rules={[
                 { required: true, message: "Please input your new password!" },
               ]}
             >
               <Input.Password />
             </Form.Item>
-
-            <Link to="/login">
-              <p style={{ marginTop: 20, textAlign: "end" }}>
-                Have an account already? Login now <RightOutlined />
-              </p>
-            </Link>
 
             <Form.Item wrapperCol={{ offset: 12, span: 16 }}>
               <Button type="primary" htmlType="submit">
