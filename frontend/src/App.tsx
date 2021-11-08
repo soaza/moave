@@ -62,7 +62,7 @@ const App: React.FC = () => {
         <Route path="/movies" component={MoviesPage} />
         <Route path="/similar_movies" component={SimilarMoviesPage} />
 
-        <Route path="/" component={NotFoundPage} />
+        {/* <Route path="/" component={NotFoundPage} /> */}
       </Switch>
     </>
   );
