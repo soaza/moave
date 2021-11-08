@@ -22,6 +22,7 @@ const RegisterPage: React.FC<IProps> = (props) => {
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("username", username);
         localStorage.setItem("user_id", response.user_id);
+        localStorage.setItem("token", response.token);
 
         history.push("/");
       }
