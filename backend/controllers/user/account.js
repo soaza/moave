@@ -14,9 +14,7 @@ const accountSignUp = async (request, response, pool) => {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   // Create token
-  const token = jwt.sign({ username: username }, process.env.TOKEN_KEY, {
-    expiresIn: "2h",
-  });
+  const token = jwt.sign({ username: username }, process.env.TOKEN_KEY);
 
   const query = `INSERT INTO Users VALUES (DEFAULT,$1,$2,$3)`;
 
@@ -69,10 +67,7 @@ const accountLogin = async (request, response, pool) => {
         // Create token
         const token = await jwt.sign(
           { username: username },
-          process.env.TOKEN_KEY,
-          {
-            expiresIn: "2h",
-          }
+          process.env.TOKEN_KEY
         );
         const updateTokenQuery = `UPDATE Users SET TOKEN = $1 WHERE username = $2`;
         pool.query(updateTokenQuery, [token, username], (error, results) => {
