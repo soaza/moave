@@ -12,12 +12,14 @@ const GroupCreateFrom: React.FC<IProps> = (props) => {
 
   const handleSubmit = async (form: { title: string; description: string }) => {
     const { title, description } = form;
-    const res = await createGroup(loggedUserId, title, description);
-    if (res.success) {
-      message.success("Successfully created group!");
-      fetchGroups();
-    } else {
-      message.error("Server Error, please try again");
+    try {
+      const res = await createGroup(loggedUserId, title, description);
+      if (res.success) {
+        message.success("Successfully created group!");
+        fetchGroups();
+      }
+    } catch (error) {
+      message.error("Duplicate Title.");
     }
   };
 

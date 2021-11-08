@@ -50,11 +50,13 @@ const SimilarMoviesPage: React.FC<IProps> = () => {
             {loading && <Loader />}
             {!loading &&
               recommendedMovies?.map((movie) => {
-                return (
-                  <Col span={6}>
-                    <RecommendedMovieCard movieId={String(movie.id)} />
-                  </Col>
-                );
+                if (movie?.id) {
+                  return (
+                    <Col span={6}>
+                      <RecommendedMovieCard movieId={String(movie.id)} />
+                    </Col>
+                  );
+                }
               })}
             {!loading && recommendedMovies.length === 0 && (
               <div>No movies found.</div>
