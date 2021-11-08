@@ -58,6 +58,14 @@ const LandingPage: React.FC = () => {
 
   const renderTabContent = (key: any) => {
     if (key === "FRONTPAGE") {
+      if (newsfeedEvents.length === 0) {
+        return (
+          <div style={{ marginTop: 30, height: 400 }}>
+            {" "}
+            No activities found.
+          </div>
+        );
+      }
       return newsfeedEvents.map((event, index) => {
         return <ProfileSingleActivity key={index} event={event} />;
       });
