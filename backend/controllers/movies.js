@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const BASE_ENDPOINT = "https://api.themoviedb.org/3";
-const RECOMMENDER_ENDPOINT = "http://127.0.0.1:5000/";
+const RECOMMENDER_ENDPOINT = "https://fierce-hamlet-39238.herokuapp.com/";
 const axios = require("axios");
 
 /**
