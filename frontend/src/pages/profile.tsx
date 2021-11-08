@@ -1,54 +1,27 @@
-import { Avatar, Col, Row, Tabs } from "antd";
 import * as React from "react";
-import ProfileTab from "../components/profile/profile-tab";
+import { getUserByUserId } from "../common/api";
+import { IUserData } from "../common/interfaces.d";
+import ProfileLanding from "../components/profile/profile-landing";
 
-const { TabPane } = Tabs;
-
-const TABS = [
-  { title: "Currently Watching", key: "watching" },
-  { title: "Completed", key: "completed" },
-  { title: "On Hold", key: "paused" },
-  { title: "Dropped", key: "dropped" },
-  { title: "Plan to Watch", key: "planned" },
-];
+const { useEffect, useState } = React;
 
 const ProfilePage: React.FC = () => {
-  return (
-    <>
-      <Row justify="center">
-        <Col span={18}>
-          <Row justify="center">
-            <Col>
-              <h1 style={{ textAlign: "center" }}>Kim Guan</h1>
-              <Avatar
-                size={200}
-                src={
-                  <img
-                    alt="profile-pic"
-                    src={"https://avatars.dicebear.com/api/human/kimgua.svg"}
-                  />
-                }
-              />
-            </Col>
-          </Row>
+  const [user, setUser] = useState<IUserData>();
 
-          <Tabs
-            style={{ marginTop: 10 }}
-            tabPosition="left"
-            defaultActiveKey="1"
-          >
-            {TABS.map((tab, index) => {
-              return (
-                <TabPane tab={tab.title} key={index}>
-                  <ProfileTab title={tab.title} />
-                </TabPane>
-              );
-            })}
-          </Tabs>
-        </Col>
-      </Row>
-    </>
-  );
+  const userIdFromParams = new URL(window.location.href).searchParams.get(
+    "user_id"
+  ) as string;
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const res = await getUserByUserId(userIdFromParams);
+      setUser(res.data);
+    };
+    loadUser();
+  }, [userIdFromParams]);
+
+  if (user) return <ProfileLanding user={user} />;
+
+  return null;
 };
-
 export default ProfilePage;

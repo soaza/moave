@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const BASE_ENDPOINT = "https://api.themoviedb.org/3";
+const RECOMMENDER_ENDPOINT = "http://127.0.0.1:5000/";
 const axios = require("axios");
 
 /**
@@ -30,6 +31,7 @@ const getMovieDetails = async (request, response, pool) => {
 const getMovies = async (request, response, pool) => {
   const params = request.query;
 
+  // query is keyword
   const { query, page } = params;
 
   const reqParams = { ...params, api_key: TMDB_API_KEY };
@@ -62,4 +64,44 @@ const getLatestMovies = async (request, response, pool) => {
   });
 };
 
-module.exports = { getMovieDetails, getMovies, getLatestMovies };
+const getRecommendedMovies = async (request, response, pool) => {
+  const params = request.query;
+
+  // query is keyword
+  const { query, page } = params;
+
+  // We are calling the recommender backend to get recommended movies
+  const res = await axios.get(
+    `${RECOMMENDER_ENDPOINT}/get_movie_recommendation`,
+    {
+      params: { movie_title: query },
+    }
+  );
+
+  let outputData = [];
+
+  // For each recommended movie we query the movie title using TMDB api to get individual movie data
+  Promise.all(
+    res.data.movies.map(async (movie_title) => {
+      const reqParams = { query: movie_title, api_key: TMDB_API_KEY };
+
+      const res = await axios.get(`${BASE_ENDPOINT}/search/movie`, {
+        params: reqParams,
+      });
+
+      outputData.push(res.data.results[0]);
+    })
+  ).then(() => {
+    response.status(200).json({
+      data: outputData,
+      size: outputData.length,
+    });
+  });
+};
+
+module.exports = {
+  getMovieDetails,
+  getMovies,
+  getLatestMovies,
+  getRecommendedMovies,
+};

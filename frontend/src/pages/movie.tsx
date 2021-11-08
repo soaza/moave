@@ -1,10 +1,11 @@
 import * as React from "react";
 import { getSoloMovie } from "../common/api";
 import { IMovieData } from "../common/interfaces.d";
-import { Rate, Col, Row, Typography } from "antd";
+import { Rate, Col, Row, Typography, Button } from "antd";
 import Loader from "../components/loader/loader";
-import MovieFavourite from "../components/movie/movie-favourite";
+import AddToListButton from "../components/movie/add-to-list-button";
 import { useViewPort } from "../common/viewport";
+import { useHistory } from "react-router";
 
 const { Title } = Typography;
 const { useEffect, useState } = React;
@@ -18,14 +19,16 @@ const MoviePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { isMobile } = useViewPort();
+  const history = useHistory();
+
+  const fetchMovie = async () => {
+    setLoading(true);
+    const response = await getSoloMovie(movieId as number);
+    setShownMovie(response.data);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      setLoading(true);
-      const response = await getSoloMovie(movieId as number);
-      setShownMovie(response.data);
-      setLoading(false);
-    };
     if (movieId) {
       fetchMovie();
     }
@@ -35,6 +38,10 @@ const MoviePage: React.FC = () => {
 
   const formatRating = (rating: number) => {
     return Math.floor((rating / 10) * 5);
+  };
+
+  const handleRedirectSimilarMovies = () => {
+    history.push(`/similar_movies?movie_title=${shownMovie?.title}`);
   };
 
   return (
@@ -54,46 +61,52 @@ const MoviePage: React.FC = () => {
       )}
 
       {shownMovie && !loading && (
-        <Row>
-          <Col span={24} lg={12}>
-            <img
-              alt="Movie Poster"
-              style={{
-                height: "100vh",
-                width: "100%",
-                maxWidth: !isMobile ? "40vw" : "100vw",
-              }}
-              src={posterLink}
-            />
-          </Col>
-          <Col
-            style={{
-              marginTop: !isMobile ? "30vh" : "10px",
-            }}
-            span={24}
-            lg={10}
-          >
-            <Title>{shownMovie.title}</Title>
-            <Rate
-              style={{ marginRight: 10 }}
-              disabled
-              allowHalf
-              value={formatRating(shownMovie.vote_average as number)}
-            />
-            ({shownMovie.vote_count})
-            <Row justify="space-between">
-              <p style={{ color: "gray" }}>
-                Release Date: {shownMovie.release_date}
-              </p>
+        <>
+          <Row>
+            <Col span={24} lg={12}>
+              <img
+                alt="Movie Poster"
+                style={{
+                  height: "100vh",
+                  width: "100%",
+                  maxWidth: !isMobile ? "40vw" : "100vw",
+                }}
+                src={posterLink}
+              />
+            </Col>
 
-              <p style={{ color: "gray" }}>
-                Runtime: {shownMovie.runtime} minutes
-              </p>
-            </Row>
-            <p>{shownMovie.overview}</p>
-            <MovieFavourite movie_id={shownMovie.id} />
-          </Col>
-        </Row>
+            <Col
+              style={{
+                marginTop: !isMobile ? "5vh" : "10px",
+              }}
+              span={24}
+              lg={10}
+            >
+              <Title>{shownMovie.title}</Title>
+              <Rate
+                style={{ marginRight: 10 }}
+                disabled
+                allowHalf
+                value={formatRating(shownMovie.vote_average as number)}
+              />
+              ({shownMovie.vote_count})
+              <Row justify="space-between">
+                <p style={{ color: "gray" }}>
+                  Release Date: {shownMovie.release_date}
+                </p>
+
+                <p style={{ color: "gray" }}>
+                  Runtime: {shownMovie.runtime} minutes
+                </p>
+              </Row>
+              <p>{shownMovie.overview}</p>
+              <AddToListButton movie_id={shownMovie.id} />
+              <Button onClick={handleRedirectSimilarMovies} type="link">
+                View similar movies
+              </Button>
+            </Col>
+          </Row>
+        </>
       )}
     </>
   );

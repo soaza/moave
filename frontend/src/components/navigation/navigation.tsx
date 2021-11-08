@@ -1,11 +1,25 @@
-import { PoweroffOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, message, Row } from "antd";
+import {
+  PoweroffOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  KeyOutlined
+} from "@ant-design/icons";
+import { Button, Col, message, Row } from "antd";
 import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import MovieSearchBar from "../search-bar/movie-search-bar";
+import UserSearchBar from "../search-bar/user-search-bar";
+
+const { useState } = React;
+
+enum TSearchType {
+  "user",
+  "movies",
+}
 
 const Navigation: React.FC = () => {
   const history = useHistory();
+  const [searchType, setSearchType] = useState<TSearchType>(TSearchType.movies);
 
   const handleSignOut = () => {
     localStorage.removeItem("isAuthenticated");
@@ -28,15 +42,50 @@ const Navigation: React.FC = () => {
           </Link>
         </Col>
 
-        <Col span={24} lg={10}>
-          <MovieSearchBar />
+        <Col span={24} lg={8}>
+          {searchType === TSearchType.movies ? (
+            <MovieSearchBar />
+          ) : (
+            <UserSearchBar />
+          )}
         </Col>
 
-        <Col style={{ color: "white", fontSize: 20 }} span={24} lg={8}>
+        <Col span={24} lg={4}>
+          <Button
+            onClick={() => {
+              searchType === TSearchType.movies
+                ? setSearchType(TSearchType.user)
+                : setSearchType(TSearchType.movies);
+            }}
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              borderColor: "black",
+            }}
+            type="primary"
+          >
+            {searchType === TSearchType.movies ? (
+              <span>
+                Search Users <UserOutlined />
+              </span>
+            ) : (
+              <span>
+                Search Movies <VideoCameraOutlined />
+              </span>
+            )}
+          </Button>
+        </Col>
+
+        <Col style={{ color: "white", fontSize: 20 }} span={24} lg={7}>
           <Row style={{ marginRight: 20 }} justify="end">
-            <Link style={{ color: "white" }} to="profile">
-              <UserOutlined style={{ color: "white", fontSize: 20 }} /> Profile
+            <Link style={{ color: "white" }} to="changePassword">
+              <KeyOutlined style={{ color: "white"}} /> Change Password
             </Link>
+
+            <Link style={{ color: "white" }} to="my_profile">
+              <UserOutlined style={{ marginLeft: 20, color: "white"}} /> Profile
+            </Link>
+
             <div
               onClick={() => handleSignOut()}
               style={{ marginLeft: 20, cursor: "pointer" }}

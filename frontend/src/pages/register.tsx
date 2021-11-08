@@ -20,6 +20,9 @@ const RegisterPage: React.FC<IProps> = (props) => {
         message.success("Successfully registered!");
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("username", username);
+        localStorage.setItem("user_id", response.user_id);
+
         history.push("/");
       }
     } catch (error) {

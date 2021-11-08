@@ -1,5 +1,13 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
 body {
-    font-family: 'Muli';
+  font-family: "Muli";
+}
+
+.ant-popover-inner-content {
+  padding: 2;
+}
+
+.ant-btn {
+  border-radius: 20px;
 }
