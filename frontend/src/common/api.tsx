@@ -86,7 +86,7 @@ async function post<T>(request: IRequest): Promise<T> {
 
 // API Calls
 
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://localhost:3002";
 
 // Account
 export const registerUser = async (username: string, password: string) => {
@@ -105,6 +105,17 @@ export const loginUser = async (username: string, password: string) => {
     data: {
       username: username,
       password: password,
+    },
+  });
+};
+
+export const changePassword = async (username: string, oldPassword: string, newPassword: string) => {
+  return patch<{ user_id: string; success: boolean }>({
+    endpoint: `${BASE_URL}/changePassword`,
+    data: {
+      username: username,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
     },
   });
 };
