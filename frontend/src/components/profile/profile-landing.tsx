@@ -167,7 +167,10 @@ const ProfileLanding: React.FC<IProps> = (props) => {
               </Row>
 
               {!isOwnProfile && loggedUserId !== String(user.user_id) && (
-                <Row style={{ marginTop: 20 }} justify="center">
+                <Row
+                  style={{ marginTop: 20, marginBottom: 20 }}
+                  justify="center"
+                >
                   {following ? (
                     <Button onClick={() => unfollowUser()} block type="ghost">
                       Following

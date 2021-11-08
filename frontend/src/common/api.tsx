@@ -42,6 +42,11 @@ async function makeRequest(request: IRequest, method: string) {
   }
 
   const authToken = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+
+  if (request.data) {
+    request.data.username = username;
+  }
 
   const headers = {
     "Content-Type": "application/json",

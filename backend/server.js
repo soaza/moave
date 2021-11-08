@@ -70,7 +70,7 @@ app.get("/following/:user_id", (req, res) => {
   accountController.getFollowing(req, res, pool);
 });
 
-app.get("/checkFollowing", auth, (req, res) => {
+app.get("/checkFollowing", (req, res) => {
   accountController.checkFollowing(req, res, pool);
 });
 
@@ -82,7 +82,6 @@ app.get("/searchUserById/:user_id", (req, res) => {
 app.get("/searchUserByUsername/:username", (req, res) => {
   accountController.getUserInfoByUsername(req, res, pool);
 });
-
 
 app.get("/getUsersByUsername", (req, res) => {
   accountController.matchUserInfoByUsername(req, res, pool);
@@ -143,7 +142,7 @@ app.post("/addMovieToWatchlist", auth, (req, res) => {
   activityController.addMovieToWatchlist(req, res, pool);
 });
 
-app.post("/addMovieToCompleted", auth,(req, res) => {
+app.post("/addMovieToCompleted", auth, (req, res) => {
   activityController.addMovieToCompleted(req, res, pool);
 });
 
