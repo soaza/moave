@@ -3,7 +3,7 @@ const addMovieToWatchlist = async (request, response, pool) => {
   const movie_id = body.movie_id;
   const user_id = body.user_id;
 
-  const query = `INSERT INTO ActivityList VALUES ($1,$2,$3)`;
+  const query = `INSERT INTO MovieLists VALUES ($1,$2,$3)`;
   pool.query(query, [user_id, movie_id, "WATCHLIST"], (error, results) => {
     if (error) {
       console.log(error);
@@ -23,7 +23,7 @@ const addMovieToCompleted = async (request, response, pool) => {
   const movie_id = body.movie_id;
   const user_id = body.user_id;
 
-  const query = `INSERT INTO ActivityList VALUES ($1,$2,$3)`;
+  const query = `INSERT INTO MovieLists VALUES ($1,$2,$3)`;
   pool.query(query, [user_id, movie_id, "COMPLETED"], (error, results) => {
     if (error) {
       console.log(error);
@@ -43,7 +43,7 @@ const addMovieToCurrentlyWatching = async (request, response, pool) => {
   const movie_id = body.movie_id;
   const user_id = body.user_id;
 
-  const query = `INSERT INTO ActivityList VALUES ($1,$2,$3)`;
+  const query = `INSERT INTO MovieLists VALUES ($1,$2,$3)`;
   pool.query(query, [user_id, movie_id, "CURRENT"], (error, results) => {
     if (error) {
       console.log(error);
@@ -63,7 +63,7 @@ const updateMovieToCompleted = async (request, response, pool) => {
   const movie_id = body.movie_id;
   const user_id = body.user_id;
 
-  const query = `UPDATE ActivityList SET activity_type = $3 WHERE user_id = $1 AND movie_id = $2`;
+  const query = `UPDATE MovieLists SET activity_type = $3 WHERE user_id = $1 AND movie_id = $2`;
   pool.query(query, [user_id, movie_id, "COMPLETED"], (error, results) => {
     if (error) {
       console.log(error);
@@ -83,7 +83,7 @@ const updateMovieToWatchlist = async (request, response, pool) => {
   const movie_id = body.movie_id;
   const user_id = body.user_id;
 
-  const query = `UPDATE ActivityList SET activity_type = $3 WHERE user_id = $1 AND movie_id = $2`;
+  const query = `UPDATE MovieLists SET activity_type = $3 WHERE user_id = $1 AND movie_id = $2`;
   pool.query(query, [user_id, movie_id, "WATCHLIST"], (error, results) => {
     if (error) {
       console.log(error);
@@ -103,7 +103,7 @@ const updateMovieToCurrentlyWatching = async (request, response, pool) => {
   const movie_id = body.movie_id;
   const user_id = body.user_id;
 
-  const query = `UPDATE ActivityList SET activity_type = $3 WHERE user_id = $1 AND movie_id = $2`;
+  const query = `UPDATE MovieLists SET activity_type = $3 WHERE user_id = $1 AND movie_id = $2`;
   pool.query(query, [user_id, movie_id, "CURRENT"], (error, results) => {
     if (error) {
       console.log(error);
@@ -123,7 +123,7 @@ const dropMovie = async (request, response, pool) => {
   const user_id = body.user_id;
   const movie_id = body.movie_id;
 
-  const query = `DELETE FROM ActivityList WHERE user_id = $1 AND movie_id = $2`;
+  const query = `DELETE FROM MovieLists WHERE user_id = $1 AND movie_id = $2`;
   pool.query(query, [user_id, movie_id], (error, results) => {
     if (error) {
       console.log(error);
@@ -140,7 +140,7 @@ const dropMovie = async (request, response, pool) => {
 
 const getCompleted = async (request, response, pool) => {
   const { user_id } = request.params;
-  const query = `SELECT * FROM ActivityList WHERE user_id = $1 AND activity_type = $2`;
+  const query = `SELECT * FROM MovieLists WHERE user_id = $1 AND activity_type = $2`;
   pool.query(query, [user_id, "COMPLETED"], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
@@ -159,7 +159,7 @@ const getCompleted = async (request, response, pool) => {
 
 const getWatchlist = async (request, response, pool) => {
   const { user_id } = request.params;
-  const query = `SELECT * FROM ActivityList WHERE user_id = $1 AND activity_type = $2`;
+  const query = `SELECT * FROM MovieLists WHERE user_id = $1 AND activity_type = $2`;
   pool.query(query, [user_id, "WATCHLIST"], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
@@ -178,7 +178,7 @@ const getWatchlist = async (request, response, pool) => {
 
 const getCurrentlyWatching = async (request, response, pool) => {
   const { user_id } = request.params;
-  const query = `SELECT * FROM ActivityList WHERE user_id = $1 AND activity_type = $2`;
+  const query = `SELECT * FROM MovieLists WHERE user_id = $1 AND activity_type = $2`;
   pool.query(query, [user_id, "CURRENT"], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
@@ -197,7 +197,7 @@ const getCurrentlyWatching = async (request, response, pool) => {
 
 const checkMovieAdded = async (request, response, pool) => {
   const { user_id, movie_id } = request.query;
-  const query = `SELECT * FROM ActivityList WHERE user_id = $1 and movie_id = $2`;
+  const query = `SELECT * FROM MovieLists WHERE user_id = $1 and movie_id = $2`;
   pool.query(query, [user_id, movie_id], async (error, results) => {
     if (error) {
       console.log(error);
