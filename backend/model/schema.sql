@@ -12,20 +12,6 @@ CREATE TABLE Follows (
     check (follower_id != following_id)
 );
 
--- CREATE TABLE MovieList (
---     user_id INTEGER references Users(user_id),
---     list_name TEXT,
---     PRIMARY KEY(user_id, list_name) 
--- );
-
--- CREATE TABLE Movies (
---     user_id INTEGER NOT NULL,
---     list_name TEXT NOT NULL,
---     movie_id INTEGER NOT NULL,
---     FOREIGN KEY (user_id, list_name) references MovieList(user_id, list_name),
---     PRIMARY KEY(user_id, list_name, movie_id)
--- );
-
 CREATE TABLE Groups (
     group_id SERIAL PRIMARY KEY,
     group_name TEXT UNIQUE NOT NULL,
@@ -40,7 +26,7 @@ CREATE TABLE UserGroups (
 );
 
 -- lists for activity
-CREATE TABLE ActivityList(
+CREATE TABLE MovieLists(
     user_id INTEGER references Users(user_id),
     movie_id INTEGER NOT NULL,
     activity_type TEXT NOT NULL,
@@ -48,7 +34,7 @@ CREATE TABLE ActivityList(
     PRIMARY KEY (user_id, movie_id)
 );
 
-CREATE TABLE EventLog(
+CREATE TABLE ActivityLogs(
     event_id SERIAL PRIMARY KEY,
     event_date timestamp,
     user_id INTEGER references Users(user_id),

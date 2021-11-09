@@ -1,4 +1,4 @@
-const { getUserInfoById } = require("../user/account");
+const { getUserInfoById } = require("../userController/account");
 
 const addUserList = async (request, response, pool) => {
     const body = request.body;

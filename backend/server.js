@@ -23,23 +23,18 @@ let pool = database.pool;
 const auth = require("./middleware/auth");
 
 // Controllers
-const accountController = require("./controllers/user/account");
-const movieController = require("./controllers/movies");
-const groupController = require("./controllers/groupControllers/group");
-const activityController = require("./controllers/activityControllers/activity");
-const eventController = require("./controllers/activityControllers/event");
-const userlistController = require("./controllers/activityControllers/userlist");
-const threadController = require("./controllers/forumControllers/thread");
-const replyController = require("./controllers/forumControllers/reply");
+const accountController = require("./controllers/userController/account");
+const movieController = require("./controllers/movieController/movies");
+const groupController = require("./controllers/groupController/group");
+const activityController = require("./controllers/activityController/activity");
+const eventController = require("./controllers/activityController/event");
+const userlistController = require("./controllers/activityController/userlist");
+const threadController = require("./controllers/forumController/thread");
+const replyController = require("./controllers/forumController/reply");
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log(`app is running on port ${port} `);
-});
-
-// JWT Welcome
-app.put("/welcome", auth, (req, res) => {
-  res.status(200).send("Welcome 🙌 ");
 });
 
 // Account Management

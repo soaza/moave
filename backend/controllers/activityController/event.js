@@ -6,7 +6,7 @@ const addEvent = async (request, response, pool) => {
   const event_type = body.event_type;
   const activity_type = body.activity_type;
 
-  const query = `INSERT INTO EventLog VALUES (DEFAULT, $1,$2,$3,$4,$5)`;
+  const query = `INSERT INTO ActivityLogs VALUES (DEFAULT, $1,$2,$3,$4,$5)`;
   pool.query(
     query,
     [event_date, user_id, movie_id, event_type, activity_type],
@@ -18,7 +18,7 @@ const addEvent = async (request, response, pool) => {
         });
       } else {
         response.status(200).json({
-          success: `Added new Event to EventLog.`,
+          success: `Added new Event to ActivityLogs.`,
         });
       }
     }
@@ -28,7 +28,7 @@ const addEvent = async (request, response, pool) => {
 const getEventsByUserId = async (request, response, pool) => {
   const { user_id } = request.params;
 
-  const query = `SELECT * FROM EventLog NATURAL JOIN users WHERE user_id = $1 ORDER BY event_date DESC`;
+  const query = `SELECT * FROM ActivityLogs NATURAL JOIN users WHERE user_id = $1 ORDER BY event_date DESC`;
   pool.query(query, [user_id], async (error, results) => {
     if (error || !results.rows[0]) {
       console.log(error);
@@ -47,11 +47,11 @@ const getEventsByUserId = async (request, response, pool) => {
 const getFriendEventsByUserId = async (request, response, pool) => {
   const { user_id } = request.params;
 
-  const query = `SELECT * FROM EventLog NATURAL JOIN users WHERE EXISTS (
+  const query = `SELECT * FROM ActivityLogs NATURAL JOIN users WHERE EXISTS (
                         SELECT follower_id 
                         FROM Follows
                         WHERE Follows.follower_id = $1
-                        AND EventLog.user_id = Follows.following_id 
+                        AND ActivityLogs.user_id = Follows.following_id 
                     ) LIMIT 50`;
   pool.query(query, [user_id], async (error, results) => {
     if (error || !results.rows[0]) {
