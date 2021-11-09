@@ -1,4 +1,4 @@
-import { Button, Card, Row } from "antd";
+import { Card, Row } from "antd";
 import moment from "moment";
 import React from "react";
 import { IThreadReplyData } from "../../common/interfaces.d";

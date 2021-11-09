@@ -39,7 +39,7 @@ const GroupForumThread: React.FC<IProps> = (props) => {
           borderRadius: "10px",
         }}
       >
-        <h2>{thread.title}</h2>
+        <h1>{thread.title}</h1>
         <Row style={{ color: "gray" }} justify="space-between">
           {/* TODO :Change to username */}
           <p>By {thread.username}</p>{" "}

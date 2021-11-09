@@ -1,4 +1,4 @@
-import { Button, Card, Row } from "antd";
+import { Button, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { getThreadsInGroup } from "../../common/api";
 import { IThreadData } from "../../common/interfaces.d";
@@ -52,7 +52,7 @@ const GroupForum: React.FC<IProps> = (props) => {
           return <GroupForumThread thread={thread} />;
         })}
 
-      {!loading && threads.length == 0 && <div> No threads found.</div>}
+      {!loading && threads.length === 0 && <div> No threads found.</div>}
     </div>
   );
 };

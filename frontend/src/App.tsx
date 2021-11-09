@@ -8,7 +8,6 @@ import Navigation from "./components/navigation/navigation";
 import LandingPage from "./pages/landing-page";
 import RegisterPage from "./pages/register";
 import LoginPage from "./pages/login";
-import NotFoundPage from "./pages/404-page";
 import MyProfilePage from "./pages/my_profile";
 import SimilarMoviesPage from "./pages/similar-movies-page";
 import ChangePasswordPage from "./pages/changePassword";

@@ -128,7 +128,19 @@ const LandingPage: React.FC = () => {
 
             {groupsJoined.map((group) => {
               return (
-                <TabPane tab={group.group_name} key={group.group_id}>
+                <TabPane
+                  tab={
+                    <div>
+                      <span style={{ marginRight: 10 }}>
+                        <b>{group.group_name}:</b>
+                      </span>
+                      <span style={{ color: "gray" }}>
+                        {group.group_description}
+                      </span>
+                    </div>
+                  }
+                  key={group.group_id}
+                >
                   {renderTabContent(group.group_id)}
                 </TabPane>
               );

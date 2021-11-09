@@ -1,7 +1,6 @@
 import { AutoComplete, Col, message, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { getGroupsByKeyword, joinGroup } from "../../common/api";
-import { IGroupData } from "../../common/interfaces.d";
 import GroupCreateFrom from "./group-create-form";
 
 interface IProps {
@@ -11,7 +10,6 @@ interface IProps {
 const GroupCreateJoinTab: React.FC<IProps> = (props) => {
   const { fetchGroups } = props;
   const [keyword, setKeyword] = useState("");
-  const [groups, setGroups] = useState<IGroupData[]>([]);
   const [options, setOptions] = useState<{ label: string; value: string }[]>(
     []
   );

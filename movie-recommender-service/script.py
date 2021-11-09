@@ -3,8 +3,8 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+# Referenced from:
 # https://www.youtube.com/watch?v=XoTwndOgXBM&t=4525s
-# https://github.com/codeheroku/Introduction-to-Machine-Learning/tree/master/Building%20a%20Movie%20Recommendation%20Engine
 
 
 def recommend_movie(title):
