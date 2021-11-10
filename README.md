@@ -32,8 +32,8 @@ psql moave
 ```
 
 3) Populate the database
-Copy all lines of code in schema.sql on our back-end repository(/backend/model/schema.sql). 
-Paste the the lines in the postgres terminal and run it, you should see the below messages in the terminal:
+Copy all lines of code in schema.sql on our back-end repository(`/backend/model/schema.sql`). 
+Paste the lines in the postgres terminal and run it, you should see the below messages in the terminal:
 ```
 CREATE TABLE
 CREATE TABLE
