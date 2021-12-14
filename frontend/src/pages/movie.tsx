@@ -39,7 +39,6 @@ const MoviePage: React.FC = () => {
   const formatRating = (rating: number) => {
     return Math.floor((rating / 10) * 5);
   };
-
   const handleRedirectSimilarMovies = () => {
     history.push(`/similar_movies?movie_title=${shownMovie?.title}`);
   };
